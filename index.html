@@ -35,6 +35,7 @@ body.dark {
   --shadow: 0 8px 30px #00000020;
 }
 
+/* Waffle theme */
 body.waffle {
   color-scheme: light;
   --bg: #edb86f;
@@ -96,6 +97,86 @@ body.nutella {
   --shadow: 0 8px 24px #1d0c071c;
 
   background: #422016;
+}
+
+/* Ice cream theme */
+body.icecream {
+  color-scheme: light;
+  --bg: #fff7e9;
+  --panel: #fffdf7;
+  --field: #fff9ef;
+  --border: #f1e2cd;
+  --text: #5c493e;
+  --muted: #a79787;
+  --accent: #f5d9a7;
+  --accent-hover: #edc98b;
+  --accent-text: #62452d;
+  --result: #92704e;
+  --shadow: 0 8px 25px #9d795410;
+
+  background-color: #fff7e9;
+  background-image:
+    linear-gradient(
+      112deg,
+      transparent 0%,
+      transparent 48%,
+      #f5a6b7 49%,
+      #f5a6b7 51%,
+      transparent 52%,
+      transparent 100%
+    ),
+    linear-gradient(
+      68deg,
+      transparent 0%,
+      transparent 48%,
+      #8dcbb1 49%,
+      #8dcbb1 51%,
+      transparent 52%,
+      transparent 100%
+    ),
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 48%,
+      #a9b9f4 49%,
+      #a9b9f4 51%,
+      transparent 52%,
+      transparent 100%
+    ),
+    linear-gradient(
+      82deg,
+      transparent 0%,
+      transparent 48%,
+      #f5cf72 49%,
+      #f5cf72 51%,
+      transparent 52%,
+      transparent 100%
+    ),
+    linear-gradient(
+      120deg,
+      transparent 0%,
+      transparent 48%,
+      #c8a1e8 49%,
+      #c8a1e8 51%,
+      transparent 52%,
+      transparent 100%
+    );
+
+  background-size:
+    97px 113px,
+    139px 127px,
+    163px 149px,
+    121px 157px,
+    181px 137px;
+
+  background-position:
+    12px 20px,
+    65px 39px,
+    23px 87px,
+    91px 11px,
+    44px 62px;
+
+  background-attachment: fixed;
 }
 
 * {
@@ -305,6 +386,98 @@ body.nutella input[type="range"] {
   accent-color: #75402b;
 }
 
+/* Ice cream styling */
+body.icecream .topbar {
+  background: #fffaf0;
+  border: none;
+  box-shadow: 0 4px 15px #b69b7820;
+}
+
+body.icecream .brand {
+  color: #685343;
+}
+
+body.icecream .brand-icon {
+  background: #f7e5c5;
+  color: #87694c;
+  border: 1px solid #ead5b4;
+  box-shadow: none;
+}
+
+body.icecream .theme-toggle {
+  background: #f8eddc;
+  border: 1px solid #eadcc7;
+}
+
+body.icecream .theme-toggle button {
+  color: #95816b;
+}
+
+body.icecream .theme-toggle button.active {
+  background: #f0d9ae;
+  color: #674c32;
+}
+
+body.icecream .card {
+  background: #fffdf7;
+  border: 1px solid #f0e5d5;
+  box-shadow: 0 8px 25px #9d795410;
+}
+
+body.icecream .btn {
+  background: #fff5e4;
+  color: #735940;
+  border: 1px solid #eddfc9;
+  box-shadow: none;
+}
+
+body.icecream .btn:hover {
+  background: #f9e9cf;
+}
+
+body.icecream .btn.active,
+body.icecream .btn.primary {
+  background: #f0d9ae;
+  color: #62472e;
+  border-color: #e8c990;
+  box-shadow: none;
+}
+
+body.icecream textarea,
+body.icecream .output,
+body.icecream .history-item {
+  background: #fff9ef;
+  color: #735940;
+  border-color: #f0e3d0;
+  box-shadow: none;
+}
+
+body.icecream textarea:focus {
+  border-color: #e8c990;
+  box-shadow: 0 0 0 3px #f0d9ae40;
+}
+
+body.icecream .history-item:hover {
+  background: #fff1dc;
+  border-color: #e8c990;
+}
+
+body.icecream .history-item strong {
+  color: #a18461;
+}
+
+body.icecream input[type="range"] {
+  accent-color: #d8b77d;
+}
+
+body.icecream #pageTitle {
+  color: #685343;
+}
+
+body.icecream #pageSubtitle {
+  color: #a79787;
+}
+
 /* Main layout */
 main {
   width: min(820px, calc(100% - 32px));
@@ -325,6 +498,14 @@ h1 {
   margin: 8px 0 0;
   color: var(--muted);
   font-size: 14px;
+}
+
+body.nutella #pageTitle {
+  color: #fff0d9;
+}
+
+body.nutella #pageSubtitle {
+  color: #d8b99a;
 }
 
 .card {
@@ -607,20 +788,10 @@ body.waffle input[type="range"] {
     align-items: flex-start;
   }
 
-    .status {
+  .status {
     flex-direction: column;
   }
 }
-
-/* Nutella heading colours */
-body.nutella #pageTitle {
-  color: #fff0d9;
-}
-
-body.nutella #pageSubtitle {
-  color: #d8b99a;
-}
-</style>
 </style>
 </head>
 <body>
@@ -636,6 +807,7 @@ body.nutella #pageSubtitle {
     <button id="darkTheme" type="button">◐ Dark</button>
     <button id="waffleTheme" type="button">🧇 Waffle</button>
     <button id="nutellaTheme" type="button">🍫 Nutella</button>
+    <button id="icecreamTheme" type="button">🍦 Ice Cream</button>
   </div>
 </header>
 
@@ -1044,7 +1216,7 @@ function showStudio() {
 }
 
 function setTheme(theme) {
-  document.body.classList.remove("dark", "waffle", "nutella");
+  document.body.classList.remove("dark", "waffle", "nutella", "icecream");
 
   if (theme !== "pink") {
     document.body.classList.add(theme);
@@ -1054,6 +1226,7 @@ function setTheme(theme) {
   $("darkTheme").classList.toggle("active", theme === "dark");
   $("waffleTheme").classList.toggle("active", theme === "waffle");
   $("nutellaTheme").classList.toggle("active", theme === "nutella");
+  $("icecreamTheme").classList.toggle("active", theme === "icecream");
 
   try {
     localStorage.setItem("wafflify-theme", theme);
@@ -1080,6 +1253,7 @@ $("pinkTheme").addEventListener("click", () => setTheme("pink"));
 $("darkTheme").addEventListener("click", () => setTheme("dark"));
 $("waffleTheme").addEventListener("click", () => setTheme("waffle"));
 $("nutellaTheme").addEventListener("click", () => setTheme("nutella"));
+$("icecreamTheme").addEventListener("click", () => setTheme("icecream"));
 
 $("historyBtn").addEventListener("click", showHistory);
 $("backBtn").addEventListener("click", showStudio);
@@ -1093,7 +1267,7 @@ let savedTheme = "pink";
 
 try {
   const storedTheme = localStorage.getItem("wafflify-theme");
-  if (["pink", "dark", "waffle", "nutella"].includes(storedTheme)) {
+  if (["pink", "dark", "waffle", "nutella", "icecream"].includes(storedTheme)) {
     savedTheme = storedTheme;
   }
 } catch {}
