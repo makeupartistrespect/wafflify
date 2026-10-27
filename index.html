@@ -36,6 +36,106 @@ body.dark {
   --shadow: 0 8px 30px #00000020;
 }
 
+
+body.waffle {
+  background-image:
+    radial-gradient(ellipse at center, #f7d38a 0%, #e8b965 60%, #c78a40 100%);
+  background-size: 42px 42px;
+  background-attachment: fixed;
+}
+
+
+
+
+body.waffle {
+  --bg: #edb86f;
+
+  background-color: #edb86f;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 37px,
+      #dba05a 37px,
+      #dba05a 39px,
+      #f9d69a 39px,
+      #f9d69a 42px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 37px,
+      #dba05a 37px,
+      #dba05a 39px,
+      #f9d69a 39px,
+      #f9d69a 42px
+    ),
+    repeating-linear-gradient(
+      135deg,
+      #f8cd83 0px,
+      #f2bd70 12px,
+      #f9d18d 24px,
+      #edb66b 42px
+    );
+
+  background-size: 42px 42px;
+  background-attachment: fixed;
+}
+
+
+body.waffle .topbar {
+  background: #fff2d8f5;
+  border-color: #e5bd7d;
+}
+
+body.waffle .card {
+  background: #fff2d8f5;
+  border-color: #e5bd7d;
+  box-shadow: 0 8px 24px #9b682018;
+}
+
+body.waffle textarea,
+body.waffle .output,
+body.waffle .history-item {
+  background: #fff9ec;
+  border-color: #ecd3a5;
+}
+
+body.waffle .btn {
+  border: 1px solid #d6a04e;
+  border-radius: 10px;
+  background: linear-gradient(
+    180deg,
+    #ffe7ad 0%,
+    #f8d17e 55%,
+    #edb95e 100%
+  );
+  color: #68401e;
+  box-shadow:
+    inset 0 2px 0 #fff7d9,
+    0 3px 0 #d2a052;
+}
+
+body.waffle .btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+body.waffle .btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 4px #a8753520;
+}
+
+body.waffle .btn.active,
+body.waffle .btn.primary {
+  background: linear-gradient(180deg, #f2c36b, #e4a94e);
+  border-color: #ce9745;
+  color: #68401e;
+  box-shadow:
+    inset 0 2px 0 #ffebbd,
+    0 3px 0 #c58d3f;
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -44,19 +144,19 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Segoe UI", Arial, sans-serif;
-  transition: background .2s, color .2s;
+  transition: background-color .2s, color .2s;
 }
 
 button, textarea, input { font: inherit; }
-
 button { cursor: pointer; }
 
 .topbar {
-  height: 76px;
+  min-height: 76px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 6%;
+  gap: 14px;
+  padding: 12px 6%;
   border-bottom: 1px solid var(--border);
   background: var(--panel);
 }
@@ -75,6 +175,7 @@ button { cursor: pointer; }
   place-items: center;
   width: 37px;
   height: 37px;
+  flex-shrink: 0;
   border-radius: 12px;
   background: var(--accent);
   color: var(--accent-text);
@@ -84,7 +185,8 @@ button { cursor: pointer; }
 
 .theme-toggle {
   display: flex;
-  gap: 3px;
+  flex-wrap: wrap;
+  gap: 4px;
   padding: 4px;
   border: 1px solid var(--border);
   background: var(--bg);
@@ -94,7 +196,7 @@ button { cursor: pointer; }
 .theme-toggle button {
   border: 0;
   border-radius: 24px;
-  padding: 9px 13px;
+  padding: 9px 12px;
   background: transparent;
   color: var(--muted);
   font-size: 12px;
@@ -105,6 +207,41 @@ button { cursor: pointer; }
   background: var(--accent);
   color: var(--accent-text);
   font-weight: 700;
+}
+
+body.waffle .topbar {
+  background: #fff0d2f2;
+  border-color: #d5a05c;
+}
+
+body.waffle .brand {
+  color: #57351d;
+}
+
+body.waffle .brand-icon {
+  background: linear-gradient(145deg, #ffe6a7, #d99537);
+  border: 2px solid #b7782d;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 3px #fff5ce, 0 3px 0 #9a6026;
+}
+
+body.waffle .theme-toggle {
+  background: #f4d7a6;
+  border-color: #c38a43;
+}
+
+body.waffle .theme-toggle button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #71451f;
+  box-shadow: none;
+}
+
+body.waffle .theme-toggle button.active {
+  background: linear-gradient(180deg, #f7d58c, #e2a343);
+  border-color: #b97b31;
+  color: #573315;
+  box-shadow: inset 0 2px 0 #fff0bd, 0 2px 0 #a66b2c;
 }
 
 main {
@@ -135,6 +272,12 @@ h1 {
   margin-bottom: 18px;
 }
 
+body.waffle .card {
+  background: #fff0d2f5;
+  border-color: #d5a05c;
+  box-shadow: 0 8px 24px #70400e25;
+}
+
 .mode-row {
   display: flex;
   align-items: center;
@@ -153,6 +296,7 @@ h1 {
 
 .mode-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 7px;
 }
 
@@ -164,7 +308,7 @@ h1 {
   color: var(--text);
   font-size: 12px;
   font-weight: 650;
-  transition: background .15s, transform .15s;
+  transition: background .15s, transform .15s, box-shadow .15s;
 }
 
 .btn:hover { transform: translateY(-1px); }
@@ -180,6 +324,31 @@ h1 {
   padding: 14px;
   font-size: 13px;
   margin-top: 15px;
+}
+
+body.waffle .btn {
+  border: 1px solid #b97b31;
+  background: linear-gradient(180deg, #ffe3a0 0%, #f0bd62 55%, #dc993b 100%);
+  color: #573315;
+  box-shadow: inset 0 2px 0 #fff4cf, 0 3px 0 #a66b2c;
+}
+
+body.waffle .btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+body.waffle .btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 4px #7c4a1b40, 0 1px 0 #a66b2c;
+}
+
+body.waffle .btn.active,
+body.waffle .btn.primary {
+  background: linear-gradient(180deg, #d99537, #b96c24);
+  border-color: #99551c;
+  color: #fff5df;
+  box-shadow: inset 0 2px 3px #713a1635, 0 3px 0 #8a4e1e;
 }
 
 textarea {
@@ -203,6 +372,13 @@ textarea:focus {
 }
 
 textarea::placeholder { color: var(--muted); }
+
+body.waffle textarea,
+body.waffle .output,
+body.waffle .history-item {
+  background: #fff8e9;
+  border-color: #dfbd86;
+}
 
 .field-footer {
   display: flex;
@@ -229,6 +405,8 @@ input[type="range"] {
   accent-color: var(--accent-hover);
   cursor: pointer;
 }
+
+body.waffle input[type="range"] { accent-color: #b96c24; }
 
 .creativity-value {
   min-width: 65px;
@@ -321,7 +499,12 @@ input[type="range"] {
 }
 
 @media (max-width: 540px) {
-  .topbar { padding: 0 16px; height: 68px; }
+  .topbar {
+    padding: 12px 16px;
+    min-height: 68px;
+    flex-wrap: wrap;
+  }
+
   .brand { font-size: 13px; }
   .brand-icon { width: 32px; height: 32px; }
   .theme-toggle button { padding: 8px 9px; font-size: 11px; }
@@ -343,8 +526,9 @@ input[type="range"] {
   </div>
 
   <div class="theme-toggle">
-    <button id="pinkTheme" class="active" type="button">♡ Pink</button>
+    <button id="pinkTheme" type="button">♡ Pink</button>
     <button id="darkTheme" type="button">◐ Dark</button>
+    <button id="waffleTheme" type="button">🧇 Waffle</button>
   </div>
 </header>
 
@@ -408,113 +592,113 @@ input[type="range"] {
 "use strict";
 
 const WAFFLE = {
-    "absolutely": "abso-waffilutely",
-    "perspicacious": "perspica-waffilicious",
-    "believable": "wafflievable",
-    "confusing": "waffusing",
-    "magnificent": "wafflificent",
-    "fantastic": "waffletastic",
-    "incredible": "wafflicredible",
-    "wonderful": "wafflerful",
-    "beautiful": "waffiliful",
-    "probably": "waffilably",
-    "definitely": "waffilinitely",
-    "ridiculous": "waffliculous",
-    "extraordinary": "extra-waffilinary",
-    "unbelievable": "unwafflievable",
-    "complicated": "wafflicated",
-    "interesting": "wafflistering",
-    "intelligent": "waffligent",
-    "confident": "waffident",
-    "delicious": "wafflicious",
-    "excellent": "waffcellent",
-    "amazing": "waffmazing",
-    "terrible": "waffrible",
-    "important": "waffortant",
-    "understand": "waffderstand",
-    "conversation": "waffversation",
-    "impossible": "waffpossible",
-    "unfortunate": "wafffortunate",
-    "successful": "waffcessful",
-    "beautifully": "waffilifully",
-    "friendship": "waffriendship",
-    "information": "wafformation",
-    "personality": "waffersonality",
-    "entertaining": "waffertaining",
-    "imagination": "waffagination",
-    "university": "waffiversity",
-    "communication": "wafficational",
-    "technology": "waffnology",
-    "appreciate": "waffreciate",
-    "phenomenal": "waffenomenal",
-    "obviously": "waffviously",
-    "adventure": "waffdventure",
-    "adventurous": "waffventurous",
-    "aggressive": "waffgressive",
-    "ambitious": "waffbitious",
-    "annoying": "waffoying",
-    "awesome": "waffesome",
-    "awkward": "waffkward",
-    "brilliant": "waffilliant",
-    "brutality": "waffrutality",
-    "calculation": "waffculation",
-    "celebration": "wafflebration",
-    "challenge": "waffallenge",
-    "character": "waffaracter",
-    "chocolate": "waffocolate",
-    "comfortable": "waffortable",
-    "creativity": "waffreativity",
-    "curiosity": "waffuriosity",
-    "dangerous": "waffgerous",
-    "determined": "wafftermined",
-    "disastrous": "waffastrous",
-    "discovery": "waffcovery",
-    "dramatic": "wafframatic",
-    "education": "waffucation",
-    "emotional": "waffotional",
-    "energetic": "waffnergetic",
-    "enthusiasm": "waffusiasm",
-    "environment": "waffironment",
-    "especially": "waffespecial",
-    "eventually": "waffentually",
-    "exaggeration": "waffaggeration",
-    "experience": "wafferience",
-    "expression": "waffression",
-    "fabulous": "waffabulous",
-    "fascinating": "waffcination",
-    "fearless": "waffearless",
-    "forgetful": "wafforgetful",
-    "frustrating": "waffrustrating",
-    "generosity": "waffenerosity",
-    "gorgeous": "wafforgeous",
-    "hilarious": "waffilarious",
-    "honestly": "waffonestly",
-    "hopefully": "waffopefully",
-    "horrendous": "wafforrendous",
-    "hypothetical": "waffothetical",
-    "immediately": "waffmediately",
-    "impressive": "waffpressive",
-    "independent": "waffependent",
-    "inspiration": "waffspiration",
-    "intimidating": "waffimidating",
-    "irritating": "waffritating",
-    "legendary": "waffendary",
-    "magnificently": "wafflificently",
-    "mysterious": "waffsterious",
-    "nonsense": "waffonsense",
-    "obnoxious": "waffnoxious",
-    "opportunity": "waffportunity",
-    "outrageous": "wafftrageous",
-    "overwhelming": "waffwhelming",
-    "perfection": "wafffection",
-    "phenomenon": "waffenomenon",
-    "unbelievably": "unwafflievably"
+  "absolutely": "abso-waffilutely",
+  "perspicacious": "perspica-waffilicious",
+  "believable": "wafflievable",
+  "confusing": "waffusing",
+  "magnificent": "wafflificent",
+  "fantastic": "waffletastic",
+  "incredible": "wafflicredible",
+  "wonderful": "wafflerful",
+  "beautiful": "waffiliful",
+  "probably": "waffilably",
+  "definitely": "waffilinitely",
+  "ridiculous": "waffliculous",
+  "extraordinary": "extra-waffilinary",
+  "unbelievable": "unwafflievable",
+  "complicated": "wafflicated",
+  "interesting": "wafflistering",
+  "intelligent": "waffligent",
+  "confident": "waffident",
+  "delicious": "wafflicious",
+  "excellent": "waffcellent",
+  "amazing": "waffmazing",
+  "terrible": "waffrible",
+  "important": "waffortant",
+  "understand": "waffderstand",
+  "conversation": "waffversation",
+  "impossible": "waffpossible",
+  "unfortunate": "wafffortunate",
+  "successful": "waffcessful",
+  "beautifully": "waffilifully",
+  "friendship": "waffriendship",
+  "information": "wafformation",
+  "personality": "waffersonality",
+  "entertaining": "waffertaining",
+  "imagination": "waffagination",
+  "university": "waffiversity",
+  "communication": "wafficational",
+  "technology": "waffnology",
+  "appreciate": "waffreciate",
+  "phenomenal": "waffenomenal",
+  "obviously": "waffviously",
+  "adventure": "waffdventure",
+  "adventurous": "waffventurous",
+  "aggressive": "waffgressive",
+  "ambitious": "waffbitious",
+  "annoying": "waffoying",
+  "awesome": "waffesome",
+  "awkward": "waffkward",
+  "brilliant": "waffilliant",
+  "brutality": "waffrutality",
+  "calculation": "waffculation",
+  "celebration": "wafflebration",
+  "challenge": "waffallenge",
+  "character": "waffaracter",
+  "chocolate": "waffocolate",
+  "comfortable": "waffortable",
+  "creativity": "waffreativity",
+  "curiosity": "waffuriosity",
+  "dangerous": "waffgerous",
+  "determined": "wafftermined",
+  "disastrous": "waffastrous",
+  "discovery": "waffcovery",
+  "dramatic": "wafframatic",
+  "education": "waffucation",
+  "emotional": "waffotional",
+  "energetic": "waffnergetic",
+  "enthusiasm": "waffusiasm",
+  "environment": "waffironment",
+  "especially": "waffespecial",
+  "eventually": "waffentually",
+  "exaggeration": "waffaggeration",
+  "experience": "wafferience",
+  "expression": "waffression",
+  "fabulous": "waffabulous",
+  "fascinating": "waffcination",
+  "fearless": "waffearless",
+  "forgetful": "wafforgetful",
+  "frustrating": "waffrustrating",
+  "generosity": "waffenerosity",
+  "gorgeous": "wafforgeous",
+  "hilarious": "waffilarious",
+  "honestly": "waffonestly",
+  "hopefully": "waffopefully",
+  "horrendous": "wafforrendous",
+  "hypothetical": "waffothetical",
+  "immediately": "waffmediately",
+  "impressive": "waffpressive",
+  "independent": "waffependent",
+  "inspiration": "waffspiration",
+  "intimidating": "waffimidating",
+  "irritating": "waffritating",
+  "legendary": "waffendary",
+  "magnificently": "wafflificently",
+  "mysterious": "waffsterious",
+  "nonsense": "waffonsense",
+  "obnoxious": "waffnoxious",
+  "opportunity": "waffportunity",
+  "outrageous": "wafftrageous",
+  "overwhelming": "waffwhelming",
+  "perfection": "wafffection",
+  "phenomenon": "waffenomenon",
+  "unbelievably": "unwafflievably"
 };
 
 const BAFFLE = Object.fromEntries(
-    Object.entries(WAFFLE).map(([word, result]) => [
-        word, result.replaceAll("waff", "baff")
-    ])
+  Object.entries(WAFFLE).map(([word, result]) => [
+    word, result.replaceAll("waff", "baff")
+  ])
 );
 
 let mode = "wafflify";
@@ -523,245 +707,267 @@ let history = [];
 const $ = id => document.getElementById(id);
 
 function preserveCase(source, result) {
-    if (source === source.toUpperCase()) return result.toUpperCase();
-    if (
-        source[0] === source[0].toUpperCase() &&
-        source.slice(1) === source.slice(1).toLowerCase()
-    ) {
-        return result.charAt(0).toUpperCase() + result.slice(1);
-    }
-    return result;
+  if (source === source.toUpperCase()) return result.toUpperCase();
+
+  if (
+    source[0] === source[0].toUpperCase() &&
+    source.slice(1) === source.slice(1).toLowerCase()
+  ) {
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
+
+  return result;
 }
 
 function splitWord(word) {
-    const endings = [
-        "ingly", "ation", "ition", "ously", "fully",
-        "able", "ible", "ment", "ness", "less",
-        "ious", "eous", "ally", "ing", "tion",
-        "sion", "ely", "ly", "ed", "er", "est"
-    ];
+  const endings = [
+    "ingly", "ation", "ition", "ously", "fully",
+    "able", "ible", "ment", "ness", "less",
+    "ious", "eous", "ally", "ing", "tion",
+    "sion", "ely", "ly", "ed", "er", "est"
+  ];
 
-    let stem = word;
-    let ending = "";
+  let stem = word;
+  let ending = "";
 
-    for (const suffix of endings) {
-        if (word.length > suffix.length + 3 && word.endsWith(suffix)) {
-            stem = word.slice(0, -suffix.length);
-            ending = suffix;
-            break;
-        }
+  for (const suffix of endings) {
+    if (word.length > suffix.length + 3 && word.endsWith(suffix)) {
+      stem = word.slice(0, -suffix.length);
+      ending = suffix;
+      break;
     }
+  }
 
-    const vowels = "aeiouy";
-    const boundaries = [];
+  const vowels = "aeiouy";
+  const boundaries = [];
 
-    for (let i = 2; i < stem.length - 1; i++) {
-        if (vowels.includes(stem[i - 1]) !== vowels.includes(stem[i])) {
-            boundaries.push(i);
-        }
+  for (let i = 2; i < stem.length - 1; i++) {
+    if (vowels.includes(stem[i - 1]) !== vowels.includes(stem[i])) {
+      boundaries.push(i);
     }
+  }
 
-    let split;
+  let split;
 
-    if (boundaries.length) {
-        const midpoint = stem.length / 2;
-        split = boundaries.reduce((best, i) =>
-            Math.abs(i - midpoint) < Math.abs(best - midpoint) ? i : best,
-            boundaries[0]
-        );
-    } else {
-        split = Math.max(2, Math.floor(stem.length / 2));
-    }
+  if (boundaries.length) {
+    const midpoint = stem.length / 2;
+    split = boundaries.reduce((best, i) =>
+      Math.abs(i - midpoint) < Math.abs(best - midpoint) ? i : best,
+      boundaries[0]
+    );
+  } else {
+    split = Math.max(2, Math.floor(stem.length / 2));
+  }
 
-    return [stem.slice(0, split), stem.slice(split), ending];
+  return [stem.slice(0, split), stem.slice(split), ending];
 }
 
 function blend(word, currentMode, creativity) {
-    const lower = word.toLowerCase();
-    const dictionary = currentMode === "wafflify" ? WAFFLE : BAFFLE;
+  const lower = word.toLowerCase();
+  const dictionary = currentMode === "wafflify" ? WAFFLE : BAFFLE;
 
-    if (dictionary[lower]) {
-        return preserveCase(word, dictionary[lower]);
-    }
+  if (dictionary[lower]) {
+    return preserveCase(word, dictionary[lower]);
+  }
 
-    const prefix = currentMode === "wafflify" ? "waff" : "baff";
+  const prefix = currentMode === "wafflify" ? "waff" : "baff";
 
-    if (lower.length <= 3) {
-        return preserveCase(word, lower + prefix);
-    }
+  if (lower.length <= 3) {
+    return preserveCase(word, lower + prefix);
+  }
 
-    const [left, right, ending] = splitWord(lower);
+  const [left, right, ending] = splitWord(lower);
 
-    let inserts = currentMode === "wafflify"
-        ? ["waff", "waffil", "waffle", "wafflic"]
-        : ["baff", "baffil", "baffle", "bafflic"];
+  let inserts = currentMode === "wafflify"
+    ? ["waff", "waffil", "waffle", "wafflic"]
+    : ["baff", "baffil", "baffle", "bafflic"];
 
-    if (creativity < 35) {
-        inserts = inserts.slice(0, 2);
-    } else if (creativity > 75) {
-        inserts.push(currentMode === "wafflify" ? "waffilicious" : "bafflicious");
-    }
+  if (creativity < 35) {
+    inserts = inserts.slice(0, 2);
+  } else if (creativity > 75) {
+    inserts.push(currentMode === "wafflify" ? "waffilicious" : "bafflicious");
+  }
 
-    let candidates = inserts.map(insert => left + insert + right + ending);
+  let candidates = inserts.map(insert => left + insert + right + ending);
 
-    candidates.push(inserts[0] + lower);
-    candidates.push(left + inserts[0] + ending);
+  candidates.push(inserts[0] + lower);
+  candidates.push(left + inserts[0] + ending);
 
-    candidates = candidates.map(candidate =>
-        candidate.replace(/([a-z])\1{2,}/g, "$1$1")
-    );
+  candidates = candidates.map(candidate =>
+    candidate.replace(/([a-z])\1{2,}/g, "$1$1")
+  );
 
-    candidates = candidates.filter(candidate => candidate !== lower);
+  candidates = candidates.filter(candidate => candidate !== lower);
 
-    const result = candidates[Math.floor(Math.random() * candidates.length)];
-    return preserveCase(word, result);
+  const result = candidates[Math.floor(Math.random() * candidates.length)];
+  return preserveCase(word, result);
 }
 
 function transformText(text, currentMode, creativity) {
-    return text.replace(/[A-Za-z]+(?:'[A-Za-z]+)?/g, token => {
-        const match = token.match(/^([A-Za-z]+)('[A-Za-z]+)?$/);
-        if (!match) return token;
+  return text.replace(/[A-Za-z]+(?:'[A-Za-z]+)?/g, token => {
+    const match = token.match(/^([A-Za-z]+)('[A-Za-z]+)?$/);
+    if (!match) return token;
 
-        const [, base, apostrophe] = match;
-        return blend(base, currentMode, creativity) + (apostrophe || "");
-    });
+    const [, base, apostrophe] = match;
+    return blend(base, currentMode, creativity) + (apostrophe || "");
+  });
 }
 
 function updateCount() {
-    const text = $("inputText").value;
-    const words = text.match(/\b[\w']+\b/g) || [];
-    $("countText").textContent =
-        `${words.length} words · ${text.length} characters`;
+  const text = $("inputText").value;
+  const words = text.match(/\b[\w']+\b/g) || [];
+
+  $("countText").textContent =
+    `${words.length} words · ${text.length} characters`;
 }
 
 function setMode(nextMode) {
-    mode = nextMode;
-    $("waffleBtn").classList.toggle("active", mode === "wafflify");
-    $("baffleBtn").classList.toggle("active", mode === "bafflify");
+  mode = nextMode;
+  $("waffleBtn").classList.toggle("active", mode === "wafflify");
+  $("baffleBtn").classList.toggle("active", mode === "bafflify");
 }
 
 function generate() {
-    const original = $("inputText").value;
+  const original = $("inputText").value;
 
-    if (!original.trim()) {
-        $("statusText").textContent = "Enter some text first.";
-        return;
-    }
+  if (!original.trim()) {
+    $("statusText").textContent = "Enter some text first.";
+    return;
+  }
 
-    const creativity = Number($("creativity").value);
-    const result = transformText(original, mode, creativity);
+  const creativity = Number($("creativity").value);
+  const result = transformText(original, mode, creativity);
 
-    $("outputText").textContent = result;
-    $("outputText").classList.remove("placeholder");
-    $("statusText").textContent = "Transformation complete.";
+  $("outputText").textContent = result;
+  $("outputText").classList.remove("placeholder");
+  $("statusText").textContent = "Transformation complete.";
 
-    history.unshift({ original, result, mode });
-    history = history.slice(0, 50);
+  history.unshift({ original, result, mode });
+  history = history.slice(0, 50);
 }
 
 function updateCreativity() {
-    const value = Number($("creativity").value);
-    $("creativityLabel").textContent =
-        value < 30 ? "Subtle" : value < 70 ? "Balanced" : "Chaotic";
+  const value = Number($("creativity").value);
+
+  $("creativityLabel").textContent =
+    value < 30 ? "Subtle" : value < 70 ? "Balanced" : "Chaotic";
 }
 
 function example() {
-    $("inputText").value =
-        "absolutely magnificent and unbelievably confusing";
-    updateCount();
-    generate();
+  $("inputText").value =
+    "absolutely magnificent and unbelievably confusing";
+
+  updateCount();
+  generate();
 }
 
 async function copyResult() {
-    const output = $("outputText");
+  const output = $("outputText");
 
-    if (output.classList.contains("placeholder") || !output.textContent.trim()) {
-        $("statusText").textContent = "Nothing to copy.";
-        return;
-    }
+  if (output.classList.contains("placeholder") || !output.textContent.trim()) {
+    $("statusText").textContent = "Nothing to copy.";
+    return;
+  }
 
-    try {
-        await navigator.clipboard.writeText(output.textContent);
-        $("statusText").textContent = "Copied to clipboard.";
-    } catch {
-        const temporary = document.createElement("textarea");
-        temporary.value = output.textContent;
-        document.body.appendChild(temporary);
-        temporary.select();
-        const copied = document.execCommand("copy");
-        temporary.remove();
-        $("statusText").textContent = copied
-            ? "Copied to clipboard."
-            : "Clipboard access was blocked.";
-    }
+  try {
+    await navigator.clipboard.writeText(output.textContent);
+    $("statusText").textContent = "Copied to clipboard.";
+  } catch {
+    const temporary = document.createElement("textarea");
+    temporary.value = output.textContent;
+    document.body.appendChild(temporary);
+    temporary.select();
+
+    const copied = document.execCommand("copy");
+    temporary.remove();
+
+    $("statusText").textContent = copied
+      ? "Copied to clipboard."
+      : "Clipboard access was blocked.";
+  }
 }
 
 function showHistory() {
-    $("studioView").style.display = "none";
-    $("historyView").style.display = "block";
-    $("pageTitle").textContent = "History";
-    $("pageSubtitle").textContent = "Your recent transformations.";
+  $("studioView").style.display = "none";
+  $("historyView").style.display = "block";
+  $("pageTitle").textContent = "History";
+  $("pageSubtitle").textContent = "Your recent transformations.";
 
-    const list = $("historyList");
-    list.replaceChildren();
+  const list = $("historyList");
+  list.replaceChildren();
 
-    if (!history.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty-history";
-        empty.textContent = "No transformations yet.";
-        list.appendChild(empty);
-        return;
-    }
+  if (!history.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-history";
+    empty.textContent = "No transformations yet.";
+    list.appendChild(empty);
+    return;
+  }
 
-    history.forEach((item, index) => {
-        const entry = document.createElement("div");
-        entry.className = "history-item";
+  history.forEach(item => {
+    const entry = document.createElement("div");
+    entry.className = "history-item";
 
-        const heading = document.createElement("strong");
-        heading.textContent = item.mode.toUpperCase();
+    const heading = document.createElement("strong");
+    heading.textContent = item.mode.toUpperCase();
 
-        const original = document.createElement("p");
-        original.textContent = item.original;
+    const original = document.createElement("p");
+    original.textContent = item.original;
 
-        const result = document.createElement("small");
-        result.textContent = "Result: " + item.result;
+    const result = document.createElement("small");
+    result.textContent = "Result: " + item.result;
 
-        entry.append(heading, original, result);
+    entry.append(heading, original, result);
 
-        entry.addEventListener("click", () => {
-            $("inputText").value = item.original;
-            $("outputText").textContent = item.result;
-            $("outputText").classList.remove("placeholder");
-            setMode(item.mode);
-            updateCount();
-            showStudio();
-            $("statusText").textContent = "Loaded from history.";
-        });
+    entry.addEventListener("click", () => {
+      $("inputText").value = item.original;
+      $("outputText").textContent = item.result;
+      $("outputText").classList.remove("placeholder");
 
-        list.appendChild(entry);
+      setMode(item.mode);
+      updateCount();
+      showStudio();
+
+      $("statusText").textContent = "Loaded from history.";
     });
+
+    list.appendChild(entry);
+  });
 }
 
 function showStudio() {
-    $("studioView").style.display = "block";
-    $("historyView").style.display = "none";
-    $("pageTitle").textContent = "Word Studio";
-    $("pageSubtitle").textContent =
-        "Give every word a waffle or baffle makeover.";
+  $("studioView").style.display = "block";
+  $("historyView").style.display = "none";
+  $("pageTitle").textContent = "Word Studio";
+  $("pageSubtitle").textContent =
+    "Give every word a waffle or baffle makeover.";
 }
 
 function setTheme(theme) {
-    document.body.classList.toggle("dark", theme === "dark");
-    $("pinkTheme").classList.toggle("active", theme === "pink");
-    $("darkTheme").classList.toggle("active", theme === "dark");
+  document.body.classList.remove("dark", "waffle");
+
+  if (theme === "dark") {
+    document.body.classList.add("dark");
+  } else if (theme === "waffle") {
+    document.body.classList.add("waffle");
+  }
+
+  $("pinkTheme").classList.toggle("active", theme === "pink");
+  $("darkTheme").classList.toggle("active", theme === "dark");
+  $("waffleTheme").classList.toggle("active", theme === "waffle");
+
+  try {
+    localStorage.setItem("wafflify-theme", theme);
+  } catch {}
 }
 
 $("inputText").addEventListener("input", updateCount);
+
 $("inputText").addEventListener("keydown", event => {
-    if (event.ctrlKey && event.key === "Enter") {
-        event.preventDefault();
-        generate();
-    }
+  if (event.ctrlKey && event.key === "Enter") {
+    event.preventDefault();
+    generate();
+  }
 });
 
 $("waffleBtn").addEventListener("click", () => setMode("wafflify"));
@@ -773,16 +979,28 @@ $("creativity").addEventListener("input", updateCreativity);
 
 $("pinkTheme").addEventListener("click", () => setTheme("pink"));
 $("darkTheme").addEventListener("click", () => setTheme("dark"));
+$("waffleTheme").addEventListener("click", () => setTheme("waffle"));
 
 $("historyBtn").addEventListener("click", showHistory);
 $("backBtn").addEventListener("click", showStudio);
 
 $("clearHistoryBtn").addEventListener("click", () => {
-    history = [];
-    showHistory();
+  history = [];
+  showHistory();
 });
 
+let savedTheme = "pink";
+
+try {
+  const storedTheme = localStorage.getItem("wafflify-theme");
+  if (["pink", "dark", "waffle"].includes(storedTheme)) {
+    savedTheme = storedTheme;
+  }
+} catch {}
+
+setTheme(savedTheme);
 updateCount();
+updateCreativity();
 </script>
 </body>
 </html>
