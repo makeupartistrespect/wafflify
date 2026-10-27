@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ouuu shiii</title>
+<title>WAFFLIFY</title>
 <style>
 :root {
   color-scheme: light;
@@ -36,19 +35,19 @@ body.dark {
   --shadow: 0 8px 30px #00000020;
 }
 
-
 body.waffle {
-  background-image:
-    radial-gradient(ellipse at center, #f7d38a 0%, #e8b965 60%, #c78a40 100%);
-  background-size: 42px 42px;
-  background-attachment: fixed;
-}
-
-
-
-
-body.waffle {
+  color-scheme: light;
   --bg: #edb86f;
+  --panel: #fff2d8;
+  --field: #fff9ec;
+  --border: #e5bd7d;
+  --text: #694321;
+  --muted: #a17b4d;
+  --accent: #f1bd5d;
+  --accent-hover: #dfa344;
+  --accent-text: #68401e;
+  --result: #9b622d;
+  --shadow: 0 8px 30px #9b682018;
 
   background-color: #edb86f;
   background-image:
@@ -77,66 +76,31 @@ body.waffle {
       #f9d18d 24px,
       #edb66b 42px
     );
-
   background-size: 42px 42px;
   background-attachment: fixed;
 }
 
+/* Nutella theme */
+body.nutella {
+  color-scheme: light;
+  --bg: #422016;
+  --panel: #fff0d9;
+  --field: #f8e8d0;
+  --border: #d1a780;
+  --text: #482719;
+  --muted: #927057;
+  --accent: #75402b;
+  --accent-hover: #60301f;
+  --accent-text: #fff4df;
+  --result: #71351f;
+  --shadow: 0 8px 24px #1d0c071c;
 
-body.waffle .topbar {
-  background: #fff2d8f5;
-  border-color: #e5bd7d;
+  background: #422016;
 }
 
-body.waffle .card {
-  background: #fff2d8f5;
-  border-color: #e5bd7d;
-  box-shadow: 0 8px 24px #9b682018;
+* {
+  box-sizing: border-box;
 }
-
-body.waffle textarea,
-body.waffle .output,
-body.waffle .history-item {
-  background: #fff9ec;
-  border-color: #ecd3a5;
-}
-
-body.waffle .btn {
-  border: 1px solid #d6a04e;
-  border-radius: 10px;
-  background: linear-gradient(
-    180deg,
-    #ffe7ad 0%,
-    #f8d17e 55%,
-    #edb95e 100%
-  );
-  color: #68401e;
-  box-shadow:
-    inset 0 2px 0 #fff7d9,
-    0 3px 0 #d2a052;
-}
-
-body.waffle .btn:hover {
-  filter: brightness(1.04);
-  transform: translateY(-1px);
-}
-
-body.waffle .btn:active {
-  transform: translateY(2px);
-  box-shadow: inset 0 2px 4px #a8753520;
-}
-
-body.waffle .btn.active,
-body.waffle .btn.primary {
-  background: linear-gradient(180deg, #f2c36b, #e4a94e);
-  border-color: #ce9745;
-  color: #68401e;
-  box-shadow:
-    inset 0 2px 0 #ffebbd,
-    0 3px 0 #c58d3f;
-}
-
-* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -147,8 +111,13 @@ body {
   transition: background-color .2s, color .2s;
 }
 
-button, textarea, input { font: inherit; }
-button { cursor: pointer; }
+button, textarea, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
 
 .topbar {
   min-height: 76px;
@@ -209,9 +178,11 @@ button { cursor: pointer; }
   font-weight: 700;
 }
 
-body.waffle .topbar {
-  background: #fff0d2f2;
-  border-color: #d5a05c;
+/* Waffle styling */
+body.waffle .topbar,
+body.waffle .card {
+  background: #fff2d8f5;
+  border-color: #e5bd7d;
 }
 
 body.waffle .brand {
@@ -231,10 +202,8 @@ body.waffle .theme-toggle {
 }
 
 body.waffle .theme-toggle button {
-  border: 1px solid transparent;
   background: transparent;
   color: #71451f;
-  box-shadow: none;
 }
 
 body.waffle .theme-toggle button.active {
@@ -244,12 +213,107 @@ body.waffle .theme-toggle button.active {
   box-shadow: inset 0 2px 0 #fff0bd, 0 2px 0 #a66b2c;
 }
 
+body.waffle .card {
+  box-shadow: 0 8px 24px #9b682018;
+}
+
+body.waffle textarea,
+body.waffle .output,
+body.waffle .history-item {
+  background: #fff9ec;
+  border-color: #ecd3a5;
+}
+
+/* Nutella styling */
+body.nutella .topbar {
+  background: #6b402b;
+  border: none;
+  box-shadow: 0 4px 14px #1d0c0725;
+}
+
+body.nutella .brand {
+  color: #fff0d9;
+}
+
+body.nutella .brand-icon {
+  background: #4b2519;
+  color: #fff0d9;
+  border: none;
+  box-shadow: none;
+  border-radius: 12px;
+}
+
+body.nutella .card {
+  background: #fff0d9;
+  border: none;
+  box-shadow: 0 8px 24px #1d0c071c;
+}
+
+body.nutella .theme-toggle {
+  background: #4b2a1d;
+  border: none;
+}
+
+body.nutella .theme-toggle button {
+  color: #ead1b5;
+}
+
+body.nutella .theme-toggle button.active {
+  background: #ead1b5;
+  color: #482719;
+}
+
+body.nutella .btn {
+  background: #f5e3c9;
+  color: #482719;
+  border: none;
+  box-shadow: none;
+}
+
+body.nutella .btn:hover {
+  background: #ead1b5;
+}
+
+body.nutella .btn.active,
+body.nutella .btn.primary {
+  background: #75402b;
+  color: #fff4df;
+  border: none;
+  box-shadow: none;
+}
+
+body.nutella textarea,
+body.nutella .output,
+body.nutella .history-item {
+  background: #f8e8d0;
+  color: #482719;
+  border: none;
+  box-shadow: none;
+}
+
+body.nutella textarea:focus {
+  outline: 2px solid #bd8d67;
+  box-shadow: none;
+}
+
+body.nutella .history-item:hover {
+  background: #f1dcc0;
+  border: none;
+}
+
+body.nutella input[type="range"] {
+  accent-color: #75402b;
+}
+
+/* Main layout */
 main {
   width: min(820px, calc(100% - 32px));
   margin: 42px auto;
 }
 
-.heading { margin-bottom: 25px; }
+.heading {
+  margin-bottom: 25px;
+}
 
 h1 {
   margin: 0;
@@ -270,12 +334,6 @@ h1 {
   background: var(--panel);
   box-shadow: var(--shadow);
   margin-bottom: 18px;
-}
-
-body.waffle .card {
-  background: #fff0d2f5;
-  border-color: #d5a05c;
-  box-shadow: 0 8px 24px #70400e25;
 }
 
 .mode-row {
@@ -311,9 +369,12 @@ body.waffle .card {
   transition: background .15s, transform .15s, box-shadow .15s;
 }
 
-.btn:hover { transform: translateY(-1px); }
+.btn:hover {
+  transform: translateY(-1px);
+}
 
-.btn.active, .btn.primary {
+.btn.active,
+.btn.primary {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-text);
@@ -326,11 +387,13 @@ body.waffle .card {
   margin-top: 15px;
 }
 
+/* Waffle buttons */
 body.waffle .btn {
-  border: 1px solid #b97b31;
-  background: linear-gradient(180deg, #ffe3a0 0%, #f0bd62 55%, #dc993b 100%);
-  color: #573315;
-  box-shadow: inset 0 2px 0 #fff4cf, 0 3px 0 #a66b2c;
+  border: 1px solid #d6a04e;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffe7ad 0%, #f8d17e 55%, #edb95e 100%);
+  color: #68401e;
+  box-shadow: inset 0 2px 0 #fff7d9, 0 3px 0 #d2a052;
 }
 
 body.waffle .btn:hover {
@@ -340,15 +403,15 @@ body.waffle .btn:hover {
 
 body.waffle .btn:active {
   transform: translateY(2px);
-  box-shadow: inset 0 2px 4px #7c4a1b40, 0 1px 0 #a66b2c;
+  box-shadow: inset 0 2px 4px #a8753520;
 }
 
 body.waffle .btn.active,
 body.waffle .btn.primary {
-  background: linear-gradient(180deg, #d99537, #b96c24);
-  border-color: #99551c;
-  color: #fff5df;
-  box-shadow: inset 0 2px 3px #713a1635, 0 3px 0 #8a4e1e;
+  background: linear-gradient(180deg, #f2c36b, #e4a94e);
+  border-color: #ce9745;
+  color: #68401e;
+  box-shadow: inset 0 2px 0 #ffebbd, 0 3px 0 #c58d3f;
 }
 
 textarea {
@@ -371,13 +434,8 @@ textarea:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
-textarea::placeholder { color: var(--muted); }
-
-body.waffle textarea,
-body.waffle .output,
-body.waffle .history-item {
-  background: #fff8e9;
-  border-color: #dfbd86;
+textarea::placeholder {
+  color: var(--muted);
 }
 
 .field-footer {
@@ -390,7 +448,9 @@ body.waffle .history-item {
   font-size: 11px;
 }
 
-.field-footer .btn { padding: 8px 10px; }
+.field-footer .btn {
+  padding: 8px 10px;
+}
 
 .creativity {
   display: grid;
@@ -406,7 +466,9 @@ input[type="range"] {
   cursor: pointer;
 }
 
-body.waffle input[type="range"] { accent-color: #b96c24; }
+body.waffle input[type="range"] {
+  accent-color: #b96c24;
+}
 
 .creativity-value {
   min-width: 65px;
@@ -437,7 +499,9 @@ body.waffle input[type="range"] { accent-color: #b96c24; }
   line-height: 1.7;
 }
 
-.output.placeholder { color: var(--muted); }
+.output.placeholder {
+  color: var(--muted);
+}
 
 .status {
   display: flex;
@@ -448,7 +512,9 @@ body.waffle input[type="range"] { accent-color: #b96c24; }
   font-size: 11px;
 }
 
-.history-card { display: none; }
+.history-card {
+  display: none;
+}
 
 .history-list {
   display: flex;
@@ -466,7 +532,9 @@ body.waffle input[type="range"] { accent-color: #b96c24; }
   overflow-wrap: anywhere;
 }
 
-.history-item:hover { border-color: var(--accent-hover); }
+.history-item:hover {
+  border-color: var(--accent-hover);
+}
 
 .history-item strong {
   display: block;
@@ -505,16 +573,54 @@ body.waffle input[type="range"] { accent-color: #b96c24; }
     flex-wrap: wrap;
   }
 
-  .brand { font-size: 13px; }
-  .brand-icon { width: 32px; height: 32px; }
-  .theme-toggle button { padding: 8px 9px; font-size: 11px; }
-  main { margin: 26px auto; }
-  .card { padding: 16px; }
-  h1 { font-size: 26px; }
-  .creativity { gap: 9px; }
-  .field-footer { align-items: flex-start; }
-  .status { flex-direction: column; }
+  .brand {
+    font-size: 13px;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .theme-toggle button {
+    padding: 8px 9px;
+    font-size: 11px;
+  }
+
+  main {
+    margin: 26px auto;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .creativity {
+    gap: 9px;
+  }
+
+  .field-footer {
+    align-items: flex-start;
+  }
+
+    .status {
+    flex-direction: column;
+  }
 }
+
+/* Nutella heading colours */
+body.nutella #pageTitle {
+  color: #fff0d9;
+}
+
+body.nutella #pageSubtitle {
+  color: #d8b99a;
+}
+</style>
 </style>
 </head>
 <body>
@@ -529,6 +635,7 @@ body.waffle input[type="range"] { accent-color: #b96c24; }
     <button id="pinkTheme" type="button">♡ Pink</button>
     <button id="darkTheme" type="button">◐ Dark</button>
     <button id="waffleTheme" type="button">🧇 Waffle</button>
+    <button id="nutellaTheme" type="button">🍫 Nutella</button>
   </div>
 </header>
 
@@ -789,7 +896,6 @@ function blend(word, currentMode, creativity) {
   }
 
   let candidates = inserts.map(insert => left + insert + right + ending);
-
   candidates.push(inserts[0] + lower);
   candidates.push(left + inserts[0] + ending);
 
@@ -816,7 +922,6 @@ function transformText(text, currentMode, creativity) {
 function updateCount() {
   const text = $("inputText").value;
   const words = text.match(/\b[\w']+\b/g) || [];
-
   $("countText").textContent =
     `${words.length} words · ${text.length} characters`;
 }
@@ -848,7 +953,6 @@ function generate() {
 
 function updateCreativity() {
   const value = Number($("creativity").value);
-
   $("creativityLabel").textContent =
     value < 30 ? "Subtle" : value < 70 ? "Balanced" : "Chaotic";
 }
@@ -856,7 +960,6 @@ function updateCreativity() {
 function example() {
   $("inputText").value =
     "absolutely magnificent and unbelievably confusing";
-
   updateCount();
   generate();
 }
@@ -923,11 +1026,9 @@ function showHistory() {
       $("inputText").value = item.original;
       $("outputText").textContent = item.result;
       $("outputText").classList.remove("placeholder");
-
       setMode(item.mode);
       updateCount();
       showStudio();
-
       $("statusText").textContent = "Loaded from history.";
     });
 
@@ -938,23 +1039,21 @@ function showHistory() {
 function showStudio() {
   $("studioView").style.display = "block";
   $("historyView").style.display = "none";
-  $("pageTitle").textContent = "Word Studio";
-  $("pageSubtitle").textContent =
-    "Give every word a waffle or baffle makeover.";
+  $("pageTitle").textContent = "wafflbafflify words";
+  $("pageSubtitle").textContent = "waffilify or baffilify words :)";
 }
 
 function setTheme(theme) {
-  document.body.classList.remove("dark", "waffle");
+  document.body.classList.remove("dark", "waffle", "nutella");
 
-  if (theme === "dark") {
-    document.body.classList.add("dark");
-  } else if (theme === "waffle") {
-    document.body.classList.add("waffle");
+  if (theme !== "pink") {
+    document.body.classList.add(theme);
   }
 
   $("pinkTheme").classList.toggle("active", theme === "pink");
   $("darkTheme").classList.toggle("active", theme === "dark");
   $("waffleTheme").classList.toggle("active", theme === "waffle");
+  $("nutellaTheme").classList.toggle("active", theme === "nutella");
 
   try {
     localStorage.setItem("wafflify-theme", theme);
@@ -980,6 +1079,7 @@ $("creativity").addEventListener("input", updateCreativity);
 $("pinkTheme").addEventListener("click", () => setTheme("pink"));
 $("darkTheme").addEventListener("click", () => setTheme("dark"));
 $("waffleTheme").addEventListener("click", () => setTheme("waffle"));
+$("nutellaTheme").addEventListener("click", () => setTheme("nutella"));
 
 $("historyBtn").addEventListener("click", showHistory);
 $("backBtn").addEventListener("click", showStudio);
@@ -993,7 +1093,7 @@ let savedTheme = "pink";
 
 try {
   const storedTheme = localStorage.getItem("wafflify-theme");
-  if (["pink", "dark", "waffle"].includes(storedTheme)) {
+  if (["pink", "dark", "waffle", "nutella"].includes(storedTheme)) {
     savedTheme = storedTheme;
   }
 } catch {}
