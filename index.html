@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ouuu shiii</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #fff5f8;
+  --panel: #ffffff;
+  --field: #fffafd;
+  --border: #f1dce5;
+  --text: #342631;
+  --muted: #927d89;
+  --accent: #f5a9c7;
+  --accent-hover: #ec91b5;
+  --accent-text: #492638;
+  --result: #b74d80;
+  --shadow: 0 8px 30px #9d557410;
+}
+
+body.dark {
+  color-scheme: dark;
+  --bg: #111214;
+  --panel: #1b1c20;
+  --field: #151619;
+  --border: #303136;
+  --text: #f3f3f5;
+  --muted: #a0a1aa;
+  --accent: #dedee3;
+  --accent-hover: #c8c8d0;
+  --accent-text: #19191d;
+  --result: #d7d7df;
+  --shadow: 0 8px 30px #00000020;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  transition: background .2s, color .2s;
+}
+
+button, textarea, input { font: inherit; }
+
+button { cursor: pointer; }
+
+.topbar {
+  height: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6%;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.theme-toggle {
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 30px;
+}
+
+.theme-toggle button {
+  border: 0;
+  border-radius: 24px;
+  padding: 9px 13px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  transition: .2s;
+}
+
+.theme-toggle button.active {
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+main {
+  width: min(820px, calc(100% - 32px));
+  margin: 42px auto;
+}
+
+.heading { margin-bottom: 25px; }
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.card {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+
+.mode-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 21px;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  color: var(--muted);
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 7px;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 14px;
+  background: var(--field);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 650;
+  transition: background .15s, transform .15s;
+}
+
+.btn:hover { transform: translateY(-1px); }
+
+.btn.active, .btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.btn.primary {
+  width: 100%;
+  padding: 14px;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 15px;
+  display: block;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--field);
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+textarea:focus {
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+textarea::placeholder { color: var(--muted); }
+
+.field-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.field-footer .btn { padding: 8px 10px; }
+
+.creativity {
+  display: grid;
+  grid-template-columns: auto minmax(80px, 1fr) auto;
+  align-items: center;
+  gap: 15px;
+  margin: 23px 0 0;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-hover);
+  cursor: pointer;
+}
+
+.creativity-value {
+  min-width: 65px;
+  text-align: right;
+  font-size: 12px;
+  color: var(--result);
+  font-weight: 700;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.output {
+  min-height: 130px;
+  padding: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--field);
+  color: var(--result);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.output.placeholder { color: var(--muted); }
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.history-card { display: none; }
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.history-item {
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--field);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.history-item:hover { border-color: var(--accent-hover); }
+
+.history-item strong {
+  display: block;
+  color: var(--result);
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+
+.history-item p {
+  margin: 0 0 6px;
+  font-size: 12px;
+}
+
+.history-item small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.history-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty-history {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 18px 0;
+}
+
+@media (max-width: 540px) {
+  .topbar { padding: 0 16px; height: 68px; }
+  .brand { font-size: 13px; }
+  .brand-icon { width: 32px; height: 32px; }
+  .theme-toggle button { padding: 8px 9px; font-size: 11px; }
+  main { margin: 26px auto; }
+  .card { padding: 16px; }
+  h1 { font-size: 26px; }
+  .creativity { gap: 9px; }
+  .field-footer { align-items: flex-start; }
+  .status { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-icon">W</div>
+    WAFFLIFY
+  </div>
+
+  <div class="theme-toggle">
+    <button id="pinkTheme" class="active" type="button">♡ Pink</button>
+    <button id="darkTheme" type="button">◐ Dark</button>
+  </div>
+</header>
+
+<main>
+  <div class="heading">
+    <h1 id="pageTitle">wafflbafflify words</h1>
+    <p class="subtitle" id="pageSubtitle">waffilify or baffilify words :)</p>
+  </div>
+
+  <section class="card" id="studioView">
+    <div class="mode-row">
+      <span class="label">TRANSFORMATION STYLE</span>
+      <div class="mode-buttons">
+        <button class="btn active" id="waffleBtn" type="button">Wafflify</button>
+        <button class="btn" id="baffleBtn" type="button">Bafflify</button>
+        <button class="btn" id="historyBtn" type="button">History</button>
+      </div>
+    </div>
+
+    <div class="label" style="display:block;margin-bottom:9px">INPUT</div>
+    <textarea id="inputText" placeholder="Type or paste your text here..." spellcheck="false"></textarea>
+
+    <div class="field-footer">
+      <span id="countText">0 words · 0 characters</span>
+      <button class="btn" id="exampleBtn" type="button">Insert example</button>
+    </div>
+
+    <div class="creativity">
+      <span class="label">CREATIVITY</span>
+      <input type="range" id="creativity" min="0" max="100" value="45">
+      <span class="creativity-value" id="creativityLabel">Balanced</span>
+    </div>
+
+    <button class="btn primary" id="transformBtn" type="button">✦ &nbsp; TRANSFORM TEXT</button>
+
+    <div style="margin-top:24px">
+      <div class="result-header">
+        <span class="label">RESULT</span>
+        <button class="btn" id="copyBtn" type="button">Copy result</button>
+      </div>
+      <div class="output placeholder" id="outputText">Your wafflified or bafflified text will appear here...</div>
+    </div>
+
+    <div class="status">
+      <span id="statusText">Ready when you are.</span>
+      <span>CTRL + ENTER to transform</span>
+    </div>
+  </section>
+
+  <section class="card history-card" id="historyView">
+    <div class="history-top">
+      <span class="label">RECENT TRANSFORMATIONS</span>
+      <button class="btn" id="backBtn" type="button">Back to studio</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+    <button class="btn" id="clearHistoryBtn" type="button" style="margin-top:14px">Clear history</button>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+const WAFFLE = {
+    "absolutely": "abso-waffilutely",
+    "perspicacious": "perspica-waffilicious",
+    "believable": "wafflievable",
+    "confusing": "waffusing",
+    "magnificent": "wafflificent",
+    "fantastic": "waffletastic",
+    "incredible": "wafflicredible",
+    "wonderful": "wafflerful",
+    "beautiful": "waffiliful",
+    "probably": "waffilably",
+    "definitely": "waffilinitely",
+    "ridiculous": "waffliculous",
+    "extraordinary": "extra-waffilinary",
+    "unbelievable": "unwafflievable",
+    "complicated": "wafflicated",
+    "interesting": "wafflistering",
+    "intelligent": "waffligent",
+    "confident": "waffident",
+    "delicious": "wafflicious",
+    "excellent": "waffcellent",
+    "amazing": "waffmazing",
+    "terrible": "waffrible",
+    "important": "waffortant",
+    "understand": "waffderstand",
+    "conversation": "waffversation",
+    "impossible": "waffpossible",
+    "unfortunate": "wafffortunate",
+    "successful": "waffcessful",
+    "beautifully": "waffilifully",
+    "friendship": "waffriendship",
+    "information": "wafformation",
+    "personality": "waffersonality",
+    "entertaining": "waffertaining",
+    "imagination": "waffagination",
+    "university": "waffiversity",
+    "communication": "wafficational",
+    "technology": "waffnology",
+    "appreciate": "waffreciate",
+    "phenomenal": "waffenomenal",
+    "obviously": "waffviously",
+    "adventure": "waffdventure",
+    "adventurous": "waffventurous",
+    "aggressive": "waffgressive",
+    "ambitious": "waffbitious",
+    "annoying": "waffoying",
+    "awesome": "waffesome",
+    "awkward": "waffkward",
+    "brilliant": "waffilliant",
+    "brutality": "waffrutality",
+    "calculation": "waffculation",
+    "celebration": "wafflebration",
+    "challenge": "waffallenge",
+    "character": "waffaracter",
+    "chocolate": "waffocolate",
+    "comfortable": "waffortable",
+    "creativity": "waffreativity",
+    "curiosity": "waffuriosity",
+    "dangerous": "waffgerous",
+    "determined": "wafftermined",
+    "disastrous": "waffastrous",
+    "discovery": "waffcovery",
+    "dramatic": "wafframatic",
+    "education": "waffucation",
+    "emotional": "waffotional",
+    "energetic": "waffnergetic",
+    "enthusiasm": "waffusiasm",
+    "environment": "waffironment",
+    "especially": "waffespecial",
+    "eventually": "waffentually",
+    "exaggeration": "waffaggeration",
+    "experience": "wafferience",
+    "expression": "waffression",
+    "fabulous": "waffabulous",
+    "fascinating": "waffcination",
+    "fearless": "waffearless",
+    "forgetful": "wafforgetful",
+    "frustrating": "waffrustrating",
+    "generosity": "waffenerosity",
+    "gorgeous": "wafforgeous",
+    "hilarious": "waffilarious",
+    "honestly": "waffonestly",
+    "hopefully": "waffopefully",
+    "horrendous": "wafforrendous",
+    "hypothetical": "waffothetical",
+    "immediately": "waffmediately",
+    "impressive": "waffpressive",
+    "independent": "waffependent",
+    "inspiration": "waffspiration",
+    "intimidating": "waffimidating",
+    "irritating": "waffritating",
+    "legendary": "waffendary",
+    "magnificently": "wafflificently",
+    "mysterious": "waffsterious",
+    "nonsense": "waffonsense",
+    "obnoxious": "waffnoxious",
+    "opportunity": "waffportunity",
+    "outrageous": "wafftrageous",
+    "overwhelming": "waffwhelming",
+    "perfection": "wafffection",
+    "phenomenon": "waffenomenon",
+    "unbelievably": "unwafflievably"
+};
+
+const BAFFLE = Object.fromEntries(
+    Object.entries(WAFFLE).map(([word, result]) => [
+        word, result.replaceAll("waff", "baff")
+    ])
+);
+
+let mode = "wafflify";
+let history = [];
+
+const $ = id => document.getElementById(id);
+
+function preserveCase(source, result) {
+    if (source === source.toUpperCase()) return result.toUpperCase();
+    if (
+        source[0] === source[0].toUpperCase() &&
+        source.slice(1) === source.slice(1).toLowerCase()
+    ) {
+        return result.charAt(0).toUpperCase() + result.slice(1);
+    }
+    return result;
+}
+
+function splitWord(word) {
+    const endings = [
+        "ingly", "ation", "ition", "ously", "fully",
+        "able", "ible", "ment", "ness", "less",
+        "ious", "eous", "ally", "ing", "tion",
+        "sion", "ely", "ly", "ed", "er", "est"
+    ];
+
+    let stem = word;
+    let ending = "";
+
+    for (const suffix of endings) {
+        if (word.length > suffix.length + 3 && word.endsWith(suffix)) {
+            stem = word.slice(0, -suffix.length);
+            ending = suffix;
+            break;
+        }
+    }
+
+    const vowels = "aeiouy";
+    const boundaries = [];
+
+    for (let i = 2; i < stem.length - 1; i++) {
+        if (vowels.includes(stem[i - 1]) !== vowels.includes(stem[i])) {
+            boundaries.push(i);
+        }
+    }
+
+    let split;
+
+    if (boundaries.length) {
+        const midpoint = stem.length / 2;
+        split = boundaries.reduce((best, i) =>
+            Math.abs(i - midpoint) < Math.abs(best - midpoint) ? i : best,
+            boundaries[0]
+        );
+    } else {
+        split = Math.max(2, Math.floor(stem.length / 2));
+    }
+
+    return [stem.slice(0, split), stem.slice(split), ending];
+}
+
+function blend(word, currentMode, creativity) {
+    const lower = word.toLowerCase();
+    const dictionary = currentMode === "wafflify" ? WAFFLE : BAFFLE;
+
+    if (dictionary[lower]) {
+        return preserveCase(word, dictionary[lower]);
+    }
+
+    const prefix = currentMode === "wafflify" ? "waff" : "baff";
+
+    if (lower.length <= 3) {
+        return preserveCase(word, lower + prefix);
+    }
+
+    const [left, right, ending] = splitWord(lower);
+
+    let inserts = currentMode === "wafflify"
+        ? ["waff", "waffil", "waffle", "wafflic"]
+        : ["baff", "baffil", "baffle", "bafflic"];
+
+    if (creativity < 35) {
+        inserts = inserts.slice(0, 2);
+    } else if (creativity > 75) {
+        inserts.push(currentMode === "wafflify" ? "waffilicious" : "bafflicious");
+    }
+
+    let candidates = inserts.map(insert => left + insert + right + ending);
+
+    candidates.push(inserts[0] + lower);
+    candidates.push(left + inserts[0] + ending);
+
+    candidates = candidates.map(candidate =>
+        candidate.replace(/([a-z])\1{2,}/g, "$1$1")
+    );
+
+    candidates = candidates.filter(candidate => candidate !== lower);
+
+    const result = candidates[Math.floor(Math.random() * candidates.length)];
+    return preserveCase(word, result);
+}
+
+function transformText(text, currentMode, creativity) {
+    return text.replace(/[A-Za-z]+(?:'[A-Za-z]+)?/g, token => {
+        const match = token.match(/^([A-Za-z]+)('[A-Za-z]+)?$/);
+        if (!match) return token;
+
+        const [, base, apostrophe] = match;
+        return blend(base, currentMode, creativity) + (apostrophe || "");
+    });
+}
+
+function updateCount() {
+    const text = $("inputText").value;
+    const words = text.match(/\b[\w']+\b/g) || [];
+    $("countText").textContent =
+        `${words.length} words · ${text.length} characters`;
+}
+
+function setMode(nextMode) {
+    mode = nextMode;
+    $("waffleBtn").classList.toggle("active", mode === "wafflify");
+    $("baffleBtn").classList.toggle("active", mode === "bafflify");
+}
+
+function generate() {
+    const original = $("inputText").value;
+
+    if (!original.trim()) {
+        $("statusText").textContent = "Enter some text first.";
+        return;
+    }
+
+    const creativity = Number($("creativity").value);
+    const result = transformText(original, mode, creativity);
+
+    $("outputText").textContent = result;
+    $("outputText").classList.remove("placeholder");
+    $("statusText").textContent = "Transformation complete.";
+
+    history.unshift({ original, result, mode });
+    history = history.slice(0, 50);
+}
+
+function updateCreativity() {
+    const value = Number($("creativity").value);
+    $("creativityLabel").textContent =
+        value < 30 ? "Subtle" : value < 70 ? "Balanced" : "Chaotic";
+}
+
+function example() {
+    $("inputText").value =
+        "absolutely magnificent and unbelievably confusing";
+    updateCount();
+    generate();
+}
+
+async function copyResult() {
+    const output = $("outputText");
+
+    if (output.classList.contains("placeholder") || !output.textContent.trim()) {
+        $("statusText").textContent = "Nothing to copy.";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(output.textContent);
+        $("statusText").textContent = "Copied to clipboard.";
+    } catch {
+        const temporary = document.createElement("textarea");
+        temporary.value = output.textContent;
+        document.body.appendChild(temporary);
+        temporary.select();
+        const copied = document.execCommand("copy");
+        temporary.remove();
+        $("statusText").textContent = copied
+            ? "Copied to clipboard."
+            : "Clipboard access was blocked.";
+    }
+}
+
+function showHistory() {
+    $("studioView").style.display = "none";
+    $("historyView").style.display = "block";
+    $("pageTitle").textContent = "History";
+    $("pageSubtitle").textContent = "Your recent transformations.";
+
+    const list = $("historyList");
+    list.replaceChildren();
+
+    if (!history.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty-history";
+        empty.textContent = "No transformations yet.";
+        list.appendChild(empty);
+        return;
+    }
+
+    history.forEach((item, index) => {
+        const entry = document.createElement("div");
+        entry.className = "history-item";
+
+        const heading = document.createElement("strong");
+        heading.textContent = item.mode.toUpperCase();
+
+        const original = document.createElement("p");
+        original.textContent = item.original;
+
+        const result = document.createElement("small");
+        result.textContent = "Result: " + item.result;
+
+        entry.append(heading, original, result);
+
+        entry.addEventListener("click", () => {
+            $("inputText").value = item.original;
+            $("outputText").textContent = item.result;
+            $("outputText").classList.remove("placeholder");
+            setMode(item.mode);
+            updateCount();
+            showStudio();
+            $("statusText").textContent = "Loaded from history.";
+        });
+
+        list.appendChild(entry);
+    });
+}
+
+function showStudio() {
+    $("studioView").style.display = "block";
+    $("historyView").style.display = "none";
+    $("pageTitle").textContent = "Word Studio";
+    $("pageSubtitle").textContent =
+        "Give every word a waffle or baffle makeover.";
+}
+
+function setTheme(theme) {
+    document.body.classList.toggle("dark", theme === "dark");
+    $("pinkTheme").classList.toggle("active", theme === "pink");
+    $("darkTheme").classList.toggle("active", theme === "dark");
+}
+
+$("inputText").addEventListener("input", updateCount);
+$("inputText").addEventListener("keydown", event => {
+    if (event.ctrlKey && event.key === "Enter") {
+        event.preventDefault();
+        generate();
+    }
+});
+
+$("waffleBtn").addEventListener("click", () => setMode("wafflify"));
+$("baffleBtn").addEventListener("click", () => setMode("bafflify"));
+$("transformBtn").addEventListener("click", generate);
+$("exampleBtn").addEventListener("click", example);
+$("copyBtn").addEventListener("click", copyResult);
+$("creativity").addEventListener("input", updateCreativity);
+
+$("pinkTheme").addEventListener("click", () => setTheme("pink"));
+$("darkTheme").addEventListener("click", () => setTheme("dark"));
+
+$("historyBtn").addEventListener("click", showHistory);
+$("backBtn").addEventListener("click", showStudio);
+
+$("clearHistoryBtn").addEventListener("click", () => {
+    history = [];
+    showHistory();
+});
+
+updateCount();
+</script>
+</body>
+</html>
