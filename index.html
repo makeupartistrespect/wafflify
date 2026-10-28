@@ -1447,7 +1447,7 @@ $("openClickerBtn").addEventListener("click", openWaffleClickerGame);
 $("openBirdBtn").addEventListener("click", openWaffleBirdGame);
 
 $("btn67").addEventListener("click", () => {
-  openCustomPrompt("Enter command:", "admin()", (val) => {
+  openCustomPrompt("Enter command:", "", (val) => {
     if (val && val.trim() === "admin()") {
       admin();
     }
