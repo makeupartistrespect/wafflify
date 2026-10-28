@@ -1122,7 +1122,7 @@ let currentScale = 1;
 
 function admin() {
   openCustomPrompt("Admin Console Command:", "", (val) => {
-    if (val && val.trim() === "admin()") {
+    if (val && val.trim() === "admincommand123") {
       if($("waffleClickerGame").hidden) {
         openWaffleClickerGame();
       }
@@ -1446,7 +1446,7 @@ $("openBirdBtn").addEventListener("click", openWaffleBirdGame);
 
 $("btn67").addEventListener("click", () => {
   openCustomPrompt("Enter command:", "", (val) => {
-    if (val && val.trim() === "admin()") {
+    if (val && val.trim() === "admincommand123)") {
       admin();
     }
   });
