@@ -532,38 +532,34 @@ const waffleImageSource = "waffle.png";
 
 function renderWaffles() {
   const field = $("waffleField");
+  const cols = Math.ceil(Math.sqrt(waffleAmount));
+  const rows = Math.ceil(waffleAmount / cols);
 
-  const width = window.innerWidth;
-  const height = Math.max(window.innerHeight - 65, 1);
-
-  const visualAmount = waffleAmount;
-
-  const cols = Math.ceil(
-    Math.sqrt(visualAmount * width / height)
-  );
-
-  const rows = Math.ceil(visualAmount / cols);
-
-  field.style.setProperty("--cols", cols);
+  field.style.display = "grid";
+  field.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
   field.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
   field.replaceChildren();
 
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < visualAmount; i++) {
+  for (let i = 0; i < waffleAmount; i++) {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "waffle-tile";
-    tile.setAttribute("aria-label", "Multiply waffles");
+    tile.setAttribute("aria-label", "Double the waffles");
 
     const img = document.createElement("img");
-    img.src = waffleImageSource;
-    img.alt = "Spinning waffle";
+    img.src = "waffle.png";
+    img.alt = "Waffle";
     img.draggable = false;
+
+    img.onerror = () => {
+      img.alt = "Missing waffle.png";
+      console.error("Could not load waffle.png. Check that it is beside your HTML file.");
+    };
 
     tile.appendChild(img);
     tile.addEventListener("click", multiplyWaffles);
-
     fragment.appendChild(tile);
   }
 
@@ -572,10 +568,6 @@ function renderWaffles() {
   $("waffleCount").textContent =
     waffleAmount.toLocaleString() +
     (waffleAmount === 1 ? " waffle" : " waffles");
-
-  $("gameHint").textContent =
-    "Click a waffle to double them. Total: " +
-    waffleAmount.toLocaleString();
 }
 
 function multiplyWaffles() {
