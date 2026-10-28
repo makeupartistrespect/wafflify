@@ -529,32 +529,32 @@ function setTheme(theme) {
 
 let waffleAmount = 1;
 const waffleImageSource = "waffle.png";
-let previousOverflow = "";
 
 function renderWaffles() {
   const field = $("waffleField");
 
-  /*
-    Render a maximum of 512 actual images to keep the browser responsive.
-    The counter still doubles on every click, and the grid always fills
-    the available screen area.
-  */
-  const visualAmount = Math.min(waffleAmount,512);
-  const availableHeight = Math.max(innerHeight-65,1);
+  const width = window.innerWidth;
+  const height = Math.max(window.innerHeight - 65, 1);
+
+  const visualAmount = waffleAmount;
+
   const cols = Math.ceil(
-    Math.sqrt(visualAmount*innerWidth/availableHeight)
+    Math.sqrt(visualAmount * width / height)
   );
 
-  field.style.setProperty("--cols",Math.max(1,cols));
+  const rows = Math.ceil(visualAmount / cols);
+
+  field.style.setProperty("--cols", cols);
+  field.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
   field.replaceChildren();
 
   const fragment = document.createDocumentFragment();
 
-  for(let i=0;i<visualAmount;i++) {
+  for (let i = 0; i < visualAmount; i++) {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "waffle-tile";
-    tile.setAttribute("aria-label","Click to multiply waffles");
+    tile.setAttribute("aria-label", "Multiply waffles");
 
     const img = document.createElement("img");
     img.src = waffleImageSource;
@@ -562,24 +562,24 @@ function renderWaffles() {
     img.draggable = false;
 
     tile.appendChild(img);
-    tile.addEventListener("click",multiplyWaffles);
+    tile.addEventListener("click", multiplyWaffles);
+
     fragment.appendChild(tile);
   }
 
   field.appendChild(fragment);
 
   $("waffleCount").textContent =
-    waffleAmount.toLocaleString()+
-    (waffleAmount===1 ? " waffle" : " waffles");
+    waffleAmount.toLocaleString() +
+    (waffleAmount === 1 ? " waffle" : " waffles");
 
   $("gameHint").textContent =
-    waffleAmount>=512
-      ? "waffles everywhere. keep going."
-      : "click a waffle. see what happens.";
+    "Click a waffle to double them. Total: " +
+    waffleAmount.toLocaleString();
 }
 
 function multiplyWaffles() {
-  waffleAmount = Math.min(waffleAmount*2,Number.MAX_SAFE_INTEGER);
+  waffleAmount *= 2;
   renderWaffles();
 }
 
