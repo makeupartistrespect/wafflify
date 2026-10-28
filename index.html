@@ -280,7 +280,7 @@ h1{font-size:26px}
     <section class="clicker-card" aria-label="Waffle counter">
       <div class="clicker-total" id="clickerWaffleCount">0 waffles</div>
       <div class="clicker-rate" id="clickerWaffleRate">0 waffles per second</div>
-      <button type="button" id="bigWaffleBtn" aria-label="Click the waffle to bake waffles">
+      <button type="button" id="bigWaffleBtn" aria-label="Click the waffle!">
         <canvas id="bigWaffleCanvas"></canvas>
       </button>
       <p class="clicker-help">Click the waffle!</p>
@@ -341,7 +341,7 @@ h1{font-size:26px}
   <section class="modal-card">
     <h2>Admin Console</h2>
     <p id="customPromptLabel">Enter command:</p>
-    <input type="text" id="customPromptInput" autocomplete="off" placeholder="">
+    <input type="text" id="customPromptInput" autocomplete="off">
     <div class="modal-actions">
       <button type="button" class="btn active" id="customPromptOk">Execute</button>
       <button type="button" class="btn" id="customPromptCancel">Cancel</button>
@@ -710,7 +710,6 @@ function setTheme(theme) {
 const CLICKER_KEY = "wafflify-clicker-save-v3";
 
 const SHOP = [];
-// 50 Per-Second Upgrades (Automated production)
 const secNames = [
   "Tiny Spatula","Waffle Iron","Waffle Chef","Waffle Cart","Waffle Café","Waffle Factory","Syrup Farm","Auto-Flipper 3000","Waffle Portal","Moon Waffle Lab",
   "Galaxy Waffle Engine","Infinite Syrup Dimension","Quantum Iron","Chrono Waffle Press","Antimatter Griddle","Dark Matter Batter","Singularity Baker","Supernova Syrup",
@@ -733,7 +732,6 @@ for(let i=0; i<50; i++) {
   baseRateSec *= 1.6;
 }
 
-// 50 Per-Click Upgrades (Power per click boosts)
 const clickNames = [
   "Stiff Bristle Brush","Steel Scraper","Gold-Plated Spatula","Diamond Edge","Titanium Turner","Laser Lighter","Plasma Press","Photon Flipper",
   "Magnetic Mallet","Sonic Spatula","Graviton Grip","Ion Infuser","Neutron Knuckles","Proton Pusher","Electron Edge","Positron Press",
@@ -1123,7 +1121,7 @@ let targetScale = 1;
 let currentScale = 1;
 
 function admin() {
-  openCustomPrompt("Admin Console Command:", "admin()", (val) => {
+  openCustomPrompt("Admin Console Command:", "", (val) => {
     if (val && val.trim() === "admin()") {
       if($("waffleClickerGame").hidden) {
         openWaffleClickerGame();
@@ -1136,9 +1134,9 @@ function admin() {
 }
 window.admin = admin;
 
-function openCustomPrompt(title, placeholder, callback) {
+function openCustomPrompt(title, initialValue, callback) {
   $("customPromptLabel").textContent = title;
-  $("customPromptInput").value = placeholder;
+  $("customPromptInput").value = initialValue;
   $("customPromptModal").hidden = false;
   $("customPromptInput").focus();
   $("customPromptInput").select();
