@@ -527,35 +527,46 @@ function setTheme(theme) {
 
 /* Waffle overload game */
 
+
+/* Waffle overload game */
+
 let waffleAmount = 1;
+let previousOverflow = "";
 const waffleImageSource = "waffle.png";
 
 function renderWaffles() {
   const field = $("waffleField");
-  const cols = Math.ceil(Math.sqrt(waffleAmount));
-  const rows = Math.ceil(waffleAmount / cols);
+  const count = $("waffleCount");
 
+  // Render only as many tiles as the browser can reasonably handle.
+  const maxVisible = 400;
+  const visibleCount = Math.min(waffleAmount, maxVisible);
+  const cols = Math.ceil(Math.sqrt(visibleCount));
+  const rows = Math.ceil(visibleCount / cols);
+
+  field.replaceChildren();
   field.style.display = "grid";
   field.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
   field.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
-  field.replaceChildren();
 
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < waffleAmount; i++) {
+  for (let i = 0; i < visibleCount; i++) {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "waffle-tile";
-    tile.setAttribute("aria-label", "Double the waffles");
+    tile.setAttribute("aria-label", "Multiply waffles");
 
     const img = document.createElement("img");
-    img.src = "waffle.png";
+    img.src = waffleImageSource;
     img.alt = "Waffle";
     img.draggable = false;
 
     img.onerror = () => {
-      img.alt = "Missing waffle.png";
-      console.error("Could not load waffle.png. Check that it is beside your HTML file.");
+      img.style.display = "none";
+      tile.textContent = "🧇";
+      tile.style.fontSize = "clamp(12px, 4vw, 48px)";
+      tile.style.color = "inherit";
     };
 
     tile.appendChild(img);
@@ -565,9 +576,10 @@ function renderWaffles() {
 
   field.appendChild(fragment);
 
-  $("waffleCount").textContent =
+  count.textContent =
     waffleAmount.toLocaleString() +
-    (waffleAmount === 1 ? " waffle" : " waffles");
+    (waffleAmount === 1 ? " waffle" : " waffles") +
+    (waffleAmount > maxVisible ? " · showing " + maxVisible : "");
 }
 
 function multiplyWaffles() {
@@ -579,6 +591,7 @@ function openWaffleGame() {
   $("studioView").style.display = "none";
   $("historyView").style.display = "none";
   $("dontClickBtn").style.display = "none";
+
   document.querySelector(".topbar").style.display = "none";
   document.querySelector("main > .heading").style.display = "none";
 
@@ -589,30 +602,32 @@ function openWaffleGame() {
   waffleAmount = 1;
   renderWaffles();
 
-  if(location.hash !== "#waffle-overload") {
-    window.history.pushState({waffleGame:true},"","#waffle-overload");
+  if (location.hash !== "#waffle-overload") {
+    window.history.pushState(
+      { waffleGame: true },
+      "",
+      "#waffle-overload"
+    );
   }
 }
 
 function closeWaffleGame() {
   $("waffleGame").hidden = true;
   document.body.style.overflow = previousOverflow;
+
   document.querySelector(".topbar").style.display = "";
   document.querySelector("main > .heading").style.display = "";
+
   showStudio();
 
-  if(location.hash === "#waffle-overload") {
-    window.history.replaceState(null,"",location.pathname+location.search);
+  if (location.hash === "#waffle-overload") {
+    window.history.replaceState(
+      null,
+      "",
+      location.pathname + location.search
+    );
   }
 }
-
-$("inputText").addEventListener("input",updateCount);
-$("inputText").addEventListener("keydown",event => {
-  if(event.ctrlKey && event.key==="Enter") {
-    event.preventDefault();
-    generate();
-  }
-});
 
 $("waffleBtn").addEventListener("click",() => setMode("wafflify"));
 $("baffleBtn").addEventListener("click",() => setMode("bafflify"));
