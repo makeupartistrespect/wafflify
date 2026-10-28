@@ -527,63 +527,59 @@ function setTheme(theme) {
 
 /* Waffle overload game */
 
-
-/* Waffle overload game */
-
 let waffleAmount = 1;
-let previousOverflow = "";
 const waffleImageSource = "waffle.png";
+let previousOverflow = "";
 
 function renderWaffles() {
   const field = $("waffleField");
-  const count = $("waffleCount");
 
-  // Render only as many tiles as the browser can reasonably handle.
-  const maxVisible = 400;
-  const visibleCount = Math.min(waffleAmount, maxVisible);
-  const cols = Math.ceil(Math.sqrt(visibleCount));
-  const rows = Math.ceil(visibleCount / cols);
+  /*
+    Render a maximum of 512 actual images to keep the browser responsive.
+    The counter still doubles on every click, and the grid always fills
+    the available screen area.
+  */
+  const visualAmount = Math.min(waffleAmount,99999999999);
+  const availableHeight = Math.max(innerHeight-65,1);
+  const cols = Math.ceil(
+    Math.sqrt(visualAmount*innerWidth/availableHeight)
+  );
 
+  field.style.setProperty("--cols",Math.max(1,cols));
   field.replaceChildren();
-  field.style.display = "grid";
-  field.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
-  field.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
 
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < visibleCount; i++) {
+  for(let i=0;i<visualAmount;i++) {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = "waffle-tile";
-    tile.setAttribute("aria-label", "Multiply waffles");
+    tile.setAttribute("aria-label","Click to multiply waffles");
 
     const img = document.createElement("img");
     img.src = waffleImageSource;
-    img.alt = "Waffle";
+    img.alt = "Spinning waffle";
     img.draggable = false;
 
-    img.onerror = () => {
-      img.style.display = "none";
-      tile.textContent = "🧇";
-      tile.style.fontSize = "clamp(12px, 4vw, 48px)";
-      tile.style.color = "inherit";
-    };
-
     tile.appendChild(img);
-    tile.addEventListener("click", multiplyWaffles);
+    tile.addEventListener("click",multiplyWaffles);
     fragment.appendChild(tile);
   }
 
   field.appendChild(fragment);
 
-  count.textContent =
-    waffleAmount.toLocaleString() +
-    (waffleAmount === 1 ? " waffle" : " waffles") +
-    (waffleAmount > maxVisible ? " · showing " + maxVisible : "");
+  $("waffleCount").textContent =
+    waffleAmount.toLocaleString()+
+    (waffleAmount===1 ? " waffle" : " waffles");
+
+  $("gameHint").textContent =
+    waffleAmount>=512
+      ? "waffles everywhere. keep going."
+      : "click a waffle. see what happens.";
 }
 
 function multiplyWaffles() {
-  waffleAmount *= 2;
+  waffleAmount = Math.min(waffleAmount*2,Number.MAX_SAFE_INTEGER);
   renderWaffles();
 }
 
@@ -591,7 +587,6 @@ function openWaffleGame() {
   $("studioView").style.display = "none";
   $("historyView").style.display = "none";
   $("dontClickBtn").style.display = "none";
-
   document.querySelector(".topbar").style.display = "none";
   document.querySelector("main > .heading").style.display = "none";
 
@@ -602,32 +597,30 @@ function openWaffleGame() {
   waffleAmount = 1;
   renderWaffles();
 
-  if (location.hash !== "#waffle-overload") {
-    window.history.pushState(
-      { waffleGame: true },
-      "",
-      "#waffle-overload"
-    );
+  if(location.hash !== "#waffle-overload") {
+    window.history.pushState({waffleGame:true},"","#waffle-overload");
   }
 }
 
 function closeWaffleGame() {
   $("waffleGame").hidden = true;
   document.body.style.overflow = previousOverflow;
-
   document.querySelector(".topbar").style.display = "";
   document.querySelector("main > .heading").style.display = "";
-
   showStudio();
 
-  if (location.hash === "#waffle-overload") {
-    window.history.replaceState(
-      null,
-      "",
-      location.pathname + location.search
-    );
+  if(location.hash === "#waffle-overload") {
+    window.history.replaceState(null,"",location.pathname+location.search);
   }
 }
+
+$("inputText").addEventListener("input",updateCount);
+$("inputText").addEventListener("keydown",event => {
+  if(event.ctrlKey && event.key==="Enter") {
+    event.preventDefault();
+    generate();
+  }
+});
 
 $("waffleBtn").addEventListener("click",() => setMode("wafflify"));
 $("baffleBtn").addEventListener("click",() => setMode("bafflify"));
