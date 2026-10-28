@@ -126,15 +126,24 @@ body.waffle .topbar,body.waffle .card{background:#fff2d8f5;border-color:#e5bd7d}
 .shop-buy:disabled{opacity:.45;cursor:not-allowed}
 .clicker-bottom{width:min(1120px,calc(100% - 28px));margin:0 auto 24px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
 
+/* Waffle Bird Game View */
+#waffleBirdGame[hidden]{display:none!important}
+#waffleBirdGame{position:fixed;inset:0;z-index:1100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;user-select:none}
+.bird-topbar{position:absolute;top:15px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;z-index:10}
+#birdCanvas{background:linear-gradient(180deg,#87ceeb,#e0f6ff);border:2px solid var(--border);border-radius:14px;box-shadow:var(--shadow);display:block}
+
 /* Modal & Admin Styles */
 .modal-backdrop{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;padding:18px;background:#21151b99}
 .modal-backdrop[hidden]{display:none!important}
-.modal-card{width:min(600px,100%);max-height:90vh;overflow:auto;padding:22px;border:1px solid var(--border);border-radius:18px;background:var(--panel);box-shadow:0 20px 80px #0004}
+.modal-card{width:min(500px,100%);max-height:90vh;overflow:auto;padding:22px;border:1px solid var(--border);border-radius:18px;background:var(--panel);box-shadow:0 20px 80px #0004}
 .modal-card h2{margin:0 0 8px}
 .modal-card p{color:var(--muted);font-size:13px;line-height:1.5}
 .modal-card textarea{min-height:135px;margin-top:12px}
 .modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .modal-status{min-height:20px;color:var(--result);font-size:12px;margin-top:10px}
+
+/* Custom HTML Prompt Modal for Admin Console */
+#customPromptModal .modal-card input{width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;background:var(--field);color:var(--text);margin-top:12px;margin-bottom:12px}
 
 #adminPanel{position:fixed;right:18px;top:90px;z-index:1300;width:min(350px,calc(100% - 36px));padding:16px;border:1px solid var(--border);border-radius:15px;background:var(--panel);box-shadow:0 18px 60px #0004;user-select:text}
 #adminPanel[hidden]{display:none!important}
@@ -236,6 +245,7 @@ h1{font-size:26px}
   <div class="bottom-buttons-container" id="bottomButtonsContainer">
     <button class="dont-click" id="dontClickBtn">DON'T CLICK THIS</button>
     <button class="dont-click" id="openClickerBtn">OPEN WAFFLE CLICKER</button>
+    <button class="dont-click" id="openBirdBtn">OPEN WAFFLE BIRD</button>
     <button class="dont-click" id="btn67">67</button>
   </div>
 </main>
@@ -276,7 +286,7 @@ h1{font-size:26px}
       <p class="clicker-help">Click the waffle!</p>
     </section>
     <section class="clicker-card">
-      <div class="shop-title"><h2 style="margin:0">Waffle shop</h2><span class="label">BUILD YOUR EMPIRE</span></div>
+      <div class="shop-title"><h2 style="margin:0">Waffle shop</h2><span class="label">100+ UPGRADES</span></div>
       <div class="shop-list" id="shopList"></div>
     </section>
   </div>
@@ -284,6 +294,15 @@ h1{font-size:26px}
     <button type="button" class="btn" id="bottomCodesButton">Save / Codes</button>
     <button type="button" class="btn" id="saveFileButton">Download save file</button>
   </div>
+</section>
+
+<!-- Waffle Bird Game View -->
+<section id="waffleBirdGame" hidden>
+  <div class="bird-topbar">
+    <button type="button" class="btn" id="birdGameBack">← Back to Wafflify</button>
+    <div style="font-weight:900;font-size:16px" id="birdScoreDisplay">Score: 0</div>
+  </div>
+  <canvas id="birdCanvas" width="380" height="520"></canvas>
 </section>
 
 <!-- Save / Codes Modal -->
@@ -302,6 +321,31 @@ h1{font-size:26px}
       <button type="button" class="btn" id="closeCodesButton">Close</button>
     </div>
     <div class="modal-status" id="codesStatus" role="status"></div>
+  </section>
+</div>
+
+<!-- Custom HTML Yes/No Confirmation Modal for Reset -->
+<div class="modal-backdrop" id="confirmModal" hidden>
+  <section class="modal-card" style="text-align:center">
+    <h2>Reset Progress?</h2>
+    <p>Are you sure you want to reset all waffle clicker progress? This cannot be undone.</p>
+    <div class="modal-actions" style="justify-content:center;margin-top:20px">
+      <button type="button" class="btn primary" id="confirmYesBtn" style="width:auto;margin:0">Yes, Reset</button>
+      <button type="button" class="btn" id="confirmNoBtn">Cancel</button>
+    </div>
+  </section>
+</div>
+
+<!-- Custom HTML Prompt Modal for Admin Console -->
+<div class="modal-backdrop" id="customPromptModal" hidden>
+  <section class="modal-card">
+    <h2>Admin Console</h2>
+    <p id="customPromptLabel">Enter command:</p>
+    <input type="text" id="customPromptInput" autocomplete="off" placeholder="">
+    <div class="modal-actions">
+      <button type="button" class="btn active" id="customPromptOk">Execute</button>
+      <button type="button" class="btn" id="customPromptCancel">Cancel</button>
+    </div>
   </section>
 </div>
 
@@ -661,25 +705,63 @@ function setTheme(theme) {
 }
 
 /* ==========================================================================
-   WAFFLE CLICKER ENGINE (Classic Idle Game with Shop)
+   WAFFLE CLICKER ENGINE (100+ Upgrades: 50 per-sec & 50 per-click)
    ========================================================================== */
-const CLICKER_KEY = "wafflify-clicker-save-v1";
-const SHOP = [
-  {id:"spatula",name:"Tiny Spatula",cost:15,rate:0.1},
-  {id:"iron",name:"Waffle Iron",cost:100,rate:1},
-  {id:"chef",name:"Waffle Chef",cost:1100,rate:8},
-  {id:"cart",name:"Waffle Cart",cost:12000,rate:47},
-  {id:"cafe",name:"Waffle Café",cost:130000,rate:260},
-  {id:"factory",name:"Waffle Factory",cost:1400000,rate:1400},
-  {id:"farm",name:"Syrup Farm",cost:20000000,rate:7800},
-  {id:"portal",name:"Waffle Portal",cost:330000000,rate:44000},
-  {id:"moon",name:"Moon Waffle Lab",cost:5100000000,rate:260000}
+const CLICKER_KEY = "wafflify-clicker-save-v3";
+
+const SHOP = [];
+// 50 Per-Second Upgrades (Automated production)
+const secNames = [
+  "Tiny Spatula","Waffle Iron","Waffle Chef","Waffle Cart","Waffle Café","Waffle Factory","Syrup Farm","Auto-Flipper 3000","Waffle Portal","Moon Waffle Lab",
+  "Galaxy Waffle Engine","Infinite Syrup Dimension","Quantum Iron","Chrono Waffle Press","Antimatter Griddle","Dark Matter Batter","Singularity Baker","Supernova Syrup",
+  "Nebula Oven","Pulsar Press","Quark Batterer","Black Hole Baker","Superstring Spatula","Tachyon Toaster","Hyperdrive Heater","Wormhole Wafflehouse",
+  "Multiverse Mixer","Cosmic Chef Guild","Time-Loop Tray","Aether Iron","Void Baker","Starlight Syrup","Supercluster Kitchen","God-Tier Grid",
+  "Omniversal Oven","Eternity Extruder","Infinity Iron","Reality Baker","Genesis Griddle","Zenith Zest","Apex Appliance","Prime Pan",
+  "Titan Toaster","Colossus Cooker","Behemoth Baker","Leviathan Layer","Monolith Maker","Pandora Press","Nirvana Nook","Ultimate Utility"
 ];
-const freshClicker = () => ({version:1,waffles:0,total:0,clickPower:1,buildings:Object.fromEntries(SHOP.map(x=>[x.id,0])),savedAt:Date.now()});
+let baseCostSec = 10;
+let baseRateSec = 0.2;
+for(let i=0; i<50; i++) {
+  SHOP.push({
+    id: "sec_" + i,
+    name: secNames[i] || ("Auto-Baker MK " + (i+1)),
+    cost: Math.round(baseCostSec),
+    rate: Number(baseRateSec.toFixed(1)),
+    type: "sec"
+  });
+  baseCostSec *= 1.38;
+  baseRateSec *= 1.6;
+}
+
+// 50 Per-Click Upgrades (Power per click boosts)
+const clickNames = [
+  "Stiff Bristle Brush","Steel Scraper","Gold-Plated Spatula","Diamond Edge","Titanium Turner","Laser Lighter","Plasma Press","Photon Flipper",
+  "Magnetic Mallet","Sonic Spatula","Graviton Grip","Ion Infuser","Neutron Knuckles","Proton Pusher","Electron Edge","Positron Press",
+  "Gluon Grasper","Boson Blade","Fermion Flipper","Hadron Handle","Lepton Lever","Baryon Beater","Meson Mallet","Photon Press",
+  "X-Rays Extruder","Gamma Griddle","Cosmic Clicker","Astral Arm","Celestial Click","Divine Digit","Holy Hand","Ethereal Elbow",
+  "Astral Apex","Infinite Index","God Finger","Omni-Tap","Absolute Actuator","Reality Clicker","Genesis Gesture","Zenith Zap",
+  "Apex Action","Prime Push","Titan Tap","Colossus Click","Behemoth Button","Leviathan Lift","Monolith Motion","Pandora Press","Nirvana Nod","Ultimate Unclick"
+];
+let baseCostClick = 15;
+let basePowerClick = 1;
+for(let i=0; i<50; i++) {
+  SHOP.push({
+    id: "click_" + i,
+    name: clickNames[i] || ("Click Boost MK " + (i+1)),
+    cost: Math.round(baseCostClick),
+    power: Math.max(1, Math.round(basePowerClick)),
+    type: "click"
+  });
+  baseCostClick *= 1.42;
+  basePowerClick *= 1.5;
+}
+
+const freshClicker = () => ({version:3,waffles:0,total:0,clickPower:1,buildings:Object.fromEntries(SHOP.map(x=>[x.id,0])),savedAt:Date.now()});
 let clicker = freshClicker(), clickerLoop = null, autosaveLoop = null;
 
 const fmt = n => n>=1e9?Number((n/1e9).toPrecision(4))+"B":n>=1e6?Number((n/1e6).toPrecision(4))+"M":Math.floor(n).toLocaleString();
-const rate = () => SHOP.reduce((sum,x)=>sum+(clicker.buildings[x.id]||0)*x.rate,0);
+const rate = () => SHOP.reduce((sum,x)=>x.type==="sec"?sum+(clicker.buildings[x.id]||0)*x.rate:sum,0);
+
 function saveClicker(){clicker.savedAt=Date.now();try{localStorage.setItem(CLICKER_KEY,JSON.stringify(clicker));}catch{}}
 
 function loadClickerSave(d){
@@ -712,9 +794,16 @@ function renderClicker(){
       info.append(name,desc);row.append(info);
       const buy=document.createElement("button");buy.className="shop-buy";
       buy.addEventListener("click",()=>{
-        const cost=Math.ceil(item.cost*Math.pow(1.15,clicker.buildings[item.id]||0));
+        const owned = clicker.buildings[item.id]||0;
+        const cost=Math.ceil(item.cost*Math.pow(1.15,owned));
         if(clicker.waffles<cost)return;
-        clicker.waffles-=cost;clicker.buildings[item.id]=(clicker.buildings[item.id]||0)+1;saveClicker();renderClicker();
+        clicker.waffles-=cost;
+        clicker.buildings[item.id]=owned+1;
+        if(item.type==="click") {
+          clicker.clickPower += item.power;
+        }
+        saveClicker();
+        renderClicker();
       });
       row.appendChild(buy);list.appendChild(row);
     });
@@ -723,7 +812,7 @@ function renderClicker(){
     const owned=clicker.buildings[item.id]||0,cost=Math.ceil(item.cost*Math.pow(1.15,owned));
     const row=list.children[index];
     row.querySelector("strong").textContent=item.name+" · "+owned;
-    row.querySelector("small").textContent="+"+fmt(item.rate)+" waffles/sec";
+    row.querySelector("small").textContent=item.type==="sec"?("+"+fmt(item.rate)+" waffles/sec"):("+"+fmt(item.power)+" click power");
     const buy=row.querySelector(".shop-buy");buy.disabled=clicker.waffles<cost;buy.textContent="Buy · "+fmt(cost);
   });
 }
@@ -823,6 +912,205 @@ function closeWaffleClickerGame(){
 }
 
 /* ==========================================================================
+   WAFFLE BIRD GAME (Flappy Bird with Waffles)
+   ========================================================================== */
+let birdGameInterval = null;
+let birdState = {
+  y: 200,
+  vy: 0,
+  gravity: 0.35,
+  lift: -6.5,
+  score: 0,
+  pipes: [],
+  gameOver: false,
+  active: false
+};
+
+function openWaffleBirdGame() {
+  $("studioView").style.display = "none";
+  $("historyView").style.display = "none";
+  $("bottomButtonsContainer").style.display = "none";
+  document.querySelector(".topbar").style.display = "none";
+  document.querySelector("main > .heading").style.display = "none";
+  $("waffleBirdGame").hidden = false;
+  
+  resetBirdGame();
+  if (!birdGameInterval) {
+    birdGameInterval = setInterval(updateBirdGame, 1000 / 60);
+  }
+}
+
+function closeWaffleBirdGame() {
+  $("waffleBirdGame").hidden = true;
+  if (birdGameInterval) {
+    clearInterval(birdGameInterval);
+    birdGameInterval = null;
+  }
+  document.querySelector(".topbar").style.display = "";
+  document.querySelector("main > .heading").style.display = "";
+  showStudio();
+}
+
+function resetBirdGame() {
+  birdState.y = 220;
+  birdState.vy = 0;
+  birdState.score = 0;
+  birdState.pipes = [];
+  birdState.gameOver = false;
+  birdState.active = false;
+  $("birdScoreDisplay").textContent = "Score: 0 (Tap/Space to Start)";
+}
+
+function flapBird() {
+  if (!birdState.active) {
+    birdState.active = true;
+  }
+  if (birdState.gameOver) {
+    resetBirdGame();
+    birdState.active = true;
+  }
+  birdState.vy = birdState.lift;
+}
+
+function updateBirdGame() {
+  const canvas = $("birdCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const width = canvas.width;
+  const height = canvas.height;
+
+  if (birdState.active && !birdState.gameOver) {
+    birdState.vy += birdState.gravity;
+    birdState.y += birdState.vy;
+
+    if (birdState.pipes.length === 0 || birdState.pipes[birdState.pipes.length - 1].x < width - 180) {
+      const gap = 130;
+      const minHeight = 60;
+      const maxHeight = height - gap - 120;
+      const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+      birdState.pipes.push({
+        x: width,
+        top: topHeight,
+        bottom: height - topHeight - gap,
+        passed: false
+      });
+    }
+
+    for (let i = birdState.pipes.length - 1; i >= 0; i--) {
+      let p = birdState.pipes[i];
+      p.x -= 2.6;
+
+      if (!p.passed && p.x + 55 < width / 2 - 20) {
+        p.passed = true;
+        birdState.score++;
+        $("birdScoreDisplay").textContent = "Score: " + birdState.score;
+      }
+
+      const bx = width / 2 - 20;
+      const by = birdState.y;
+      const bw = 36;
+      const bh = 36;
+
+      if (bx + bw > p.x && bx < p.x + 55) {
+        if (by < p.top || by + bh > height - p.bottom) {
+          birdState.gameOver = true;
+        }
+      }
+
+      if (p.x < -70) {
+        birdState.pipes.splice(i, 1);
+      }
+    }
+
+    if (birdState.y > height - 40 || birdState.y < 0) {
+      birdState.gameOver = true;
+    }
+  }
+
+  ctx.clearRect(0, 0, width, height);
+
+  ctx.fillStyle = "#d0f0ff";
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.fillStyle = "#8b5a2b";
+  ctx.strokeStyle = "#5a3816";
+  ctx.lineWidth = 3;
+  birdState.pipes.forEach(p => {
+    ctx.fillRect(p.x, 0, 55, p.top);
+    ctx.strokeRect(p.x, 0, 55, p.top);
+    ctx.fillRect(p.x, height - p.bottom, 55, p.bottom);
+    ctx.strokeRect(p.x, height - p.bottom, 55, p.bottom);
+  });
+
+  ctx.fillStyle = "#c88a4e";
+  ctx.fillRect(0, height - 30, width, 30);
+  ctx.fillStyle = "#8b5a2b";
+  ctx.fillRect(0, height - 35, width, 5);
+
+  ctx.save();
+  ctx.translate(width / 2 - 2, birdState.y + 18);
+  if (birdState.active) {
+    ctx.rotate(Math.min(Math.PI / 4, Math.max(-Math.PI / 4, birdState.vy * 0.08)));
+  }
+  
+  ctx.fillStyle = "#f8c765";
+  ctx.strokeStyle = "#694321";
+  ctx.lineWidth = 2.5;
+  ctx.fillRect(-18, -18, 36, 36);
+  ctx.strokeRect(-18, -18, 36, 36);
+
+  ctx.strokeStyle = "rgba(105, 52, 10, 0.3)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-6, -18); ctx.lineTo(-6, 18);
+  ctx.moveTo(6, -18); ctx.lineTo(6, 18);
+  ctx.moveTo(-18, -6); ctx.lineTo(18, -6);
+  ctx.moveTo(-18, 6); ctx.lineTo(18, 6);
+  ctx.stroke();
+
+  ctx.fillStyle = "#342631";
+  ctx.beginPath();
+  ctx.arc(-7, -3, 3, 0, Math.PI * 2);
+  ctx.arc(7, -3, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#ff99aa";
+  ctx.beginPath();
+  ctx.arc(-9, 3, 3.5, 0, Math.PI * 2);
+  ctx.arc(9, 3, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+
+  if (!birdState.active) {
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 20px Segoe UI";
+    ctx.textAlign = "center";
+    ctx.fillText("Click or Press Space to Fly!", width / 2, height / 2);
+  } else if (birdState.gameOver) {
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 26px Segoe UI";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", width / 2, height / 2 - 20);
+    ctx.font = "14px Segoe UI";
+    ctx.fillText("Click to Play Again", width / 2, height / 2 + 15);
+  }
+}
+
+$("birdCanvas").addEventListener("click", flapBird);
+window.addEventListener("keydown", e => {
+  if (!$("waffleBirdGame").hidden && (e.code === "Space" || e.code === "ArrowUp")) {
+    e.preventDefault();
+    flapBird();
+  }
+});
+
+
+/* ==========================================================================
    HIGH-PERFORMANCE CANVAS WAFFLE ENGINE (Waffle Overload Game)
    ========================================================================== */
 let waffleAmount = 1;
@@ -834,16 +1122,48 @@ let particles = [];
 let targetScale = 1;
 let currentScale = 1;
 
-// Admin function exposed globally
 function admin() {
-  if($("waffleClickerGame").hidden) {
-    openWaffleClickerGame();
-  }
-  $("adminPanel").hidden = false;
-  $("adminRestore").hidden = true;
-  return "Wafflify admin panel opened.";
+  openCustomPrompt("Admin Console Command:", "admin()", (val) => {
+    if (val && val.trim() === "admin()") {
+      if($("waffleClickerGame").hidden) {
+        openWaffleClickerGame();
+      }
+      $("adminPanel").hidden = false;
+      $("adminRestore").hidden = true;
+    }
+  });
+  return "Admin console opened.";
 }
 window.admin = admin;
+
+function openCustomPrompt(title, placeholder, callback) {
+  $("customPromptLabel").textContent = title;
+  $("customPromptInput").value = placeholder;
+  $("customPromptModal").hidden = false;
+  $("customPromptInput").focus();
+  $("customPromptInput").select();
+
+  const okHandler = () => {
+    cleanup();
+    callback($("customPromptInput").value);
+  };
+  const keyHandler = (e) => {
+    if (e.key === "Enter") { okHandler(); }
+    else if (e.key === "Escape") { cancelHandler(); }
+  };
+  const cancelHandler = () => { cleanup(); };
+
+  function cleanup() {
+    $("customPromptModal").hidden = true;
+    $("customPromptOk").removeEventListener("click", okHandler);
+    $("customPromptCancel").removeEventListener("click", cancelHandler);
+    $("customPromptInput").removeEventListener("keydown", keyHandler);
+  }
+
+  $("customPromptOk").addEventListener("click", okHandler);
+  $("customPromptCancel").addEventListener("click", cancelHandler);
+  $("customPromptInput").addEventListener("keydown", keyHandler);
+}
 
 function setAdminPanelVisible(visible) {
   $("adminPanel").hidden = !visible;
@@ -1093,7 +1413,6 @@ function closeWaffleOverloadGame() {
   showStudio();
 }
 
-// Event Listeners
 $("inputText").addEventListener("input", updateCount);
 $("inputText").addEventListener("keydown", event => {
   if(event.ctrlKey && event.key === "Enter") {
@@ -1123,16 +1442,16 @@ $("clearHistoryBtn").addEventListener("click", () => {
   showHistory();
 });
 
-// Button wiring
 $("dontClickBtn").addEventListener("click", openWaffleOverloadGame);
 $("openClickerBtn").addEventListener("click", openWaffleClickerGame);
+$("openBirdBtn").addEventListener("click", openWaffleBirdGame);
 
-// Button 67 setup
 $("btn67").addEventListener("click", () => {
-  const promptVal = prompt("Enter command:");
-  if (promptVal && promptVal.trim() === "admin()") {
-    admin();
-  }
+  openCustomPrompt("Enter command:", "admin()", (val) => {
+    if (val && val.trim() === "admin()") {
+      admin();
+    }
+  });
 });
 
 $("gameBack").addEventListener("click", closeWaffleOverloadGame);
@@ -1146,10 +1465,24 @@ $("gameReset").addEventListener("click", () => {
 });
 
 $("clickerGameBack").addEventListener("click", closeWaffleClickerGame);
+
 $("clickerGameReset").addEventListener("click", () => {
-  if(!window.confirm("Reset all waffle clicker progress? This cannot be undone."))return;
-  clicker=freshClicker();saveClicker();renderClicker();
+  $("confirmModal").hidden = false;
 });
+
+$("confirmYesBtn").addEventListener("click", () => {
+  clicker = freshClicker();
+  saveClicker();
+  renderClicker();
+  $("confirmModal").hidden = true;
+});
+
+$("confirmNoBtn").addEventListener("click", () => {
+  $("confirmModal").hidden = true;
+});
+
+$("birdGameBack").addEventListener("click", closeWaffleBirdGame);
+
 $("bigWaffleBtn").addEventListener("click",()=>{addClickerWaffles(clicker.clickPower);saveClicker();});
 $("codesButton").addEventListener("click",()=>{ $("codesModal").hidden=false; $("codesStatus").textContent=""; $("saveText").value=""; });
 $("bottomCodesButton").addEventListener("click",()=>{ $("codesModal").hidden=false; $("codesStatus").textContent=""; $("saveText").value=""; });
@@ -1199,7 +1532,6 @@ $("saveFileInput").addEventListener("change",async e=>{
   e.target.value="";
 });
 
-// Admin Panel Listeners
 $("adminMinimize").addEventListener("click", () => setAdminPanelVisible(false));
 $("adminRestore").addEventListener("click", () => setAdminPanelVisible(true));
 $("adminClose").addEventListener("click", () => setAdminPanelVisible(false));
