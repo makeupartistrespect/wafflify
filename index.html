@@ -786,7 +786,7 @@ function openWaffleGame() {
   if (animId) cancelAnimationFrame(animId);
   animId = requestAnimationFrame(renderCanvasFrame);
 
-  if (location.hash !== "#waffle-overload") {
+  if (location.hash !== "") {
     window.history.pushState({waffleGame:true}, "", "#waffle-overload");
   }
 }
